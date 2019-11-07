@@ -1,0 +1,1 @@
+Aquí se encontratán los jars que cada uno tenga que incluir (por ejemplo javazoom para reproducir sonidos).
