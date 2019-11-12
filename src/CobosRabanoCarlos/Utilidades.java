@@ -19,9 +19,18 @@ public class Utilidades {
 	
 	public static void guardarSampler(BotonSampler[][] botones) {
 		File f=new File("./sampler.sam");
+		String descripciones[][]=new String[4][4];
+		File [][] direcciones=new File[4][4];
+		for (int i = 0; i < botones.length; i++) {
+			for (int j = 0; j < botones[i].length; j++) {
+				descripciones[i][j]=botones[i][j].getDescripcion();
+				direcciones[i][j]=botones[i][j].getFichero();
+			}
+		}
 		try {
 			ObjectOutputStream oos=new ObjectOutputStream(new FileOutputStream(f));
-			oos.writeObject(botones);
+			oos.writeObject(descripciones);
+			oos.writeObject(direcciones);
 			oos.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -29,9 +38,10 @@ public class Utilidades {
 		}		
 	}
 	
-	public static BotonSampler[][] cargarSampler(BotonSampler[][] botones, JFrame actual) {
+	public static void cargarSampler(BotonSampler[][] botones, JFrame actual) {
 		JFrame ventana=actual;
-		BotonSampler[][] devolver=botones;
+		String[][] descripciones;
+		File[][] direcciones;
  		JFileChooser chooser=new JFileChooser(".");
 		chooser.setFileFilter(new FiltroExt(".sam"));
 		int select;
@@ -42,15 +52,24 @@ public class Utilidades {
 			ObjectInputStream ois;
 			try {
 				ois = new ObjectInputStream(new FileInputStream(f));
-				botones=(BotonSampler[][])ois.readObject();
+				descripciones=(String[][])ois.readObject();
+				direcciones=(File[][])ois.readObject();
+				for (int i = 0; i < botones.length; i++) {
+					for (int j = 0; j < botones[i].length; j++) {
+						botones[i][j].setDescripcion(descripciones[i][j]);
+						botones[i][j].setText(descripciones[i][j]);
+						botones[i][j].setFichero(direcciones[i][j]);
+						botones[i][j].setSonido(new ReproduccionSonido(direcciones[i][j], botones[i][j]));
+					}
+				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}			
-		}
-		return botones;
+			}		
+					}
+		
 	}
 }

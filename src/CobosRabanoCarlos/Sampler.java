@@ -14,6 +14,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import com.sun.org.apache.xerces.internal.impl.RevalidationHandler;
+
 public class Sampler {
 	JFrame ventana;
 	
@@ -42,7 +44,7 @@ public class Sampler {
 		itemGuardar.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {				
 				Utilidades.guardarSampler(botones);
 				
 			}
@@ -51,13 +53,15 @@ public class Sampler {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {				
-				botones=Utilidades.cargarSampler(botones, ventana);	
+				Utilidades.cargarSampler(botones, ventana);	
+				ventana.revalidate();
+				ventana.repaint();
 			}
 		});
 	}
 
 	public void inicializar() {
-		//Añadimos un panel con los 16 botones
+		//Aï¿½adimos un panel con los 16 botones
 		panelBotones=new JPanel();
 		ventana.add(panelBotones);
 		panelBotones.setLayout(new GridBagLayout());
@@ -77,7 +81,7 @@ public class Sampler {
 			}
 		}
 		
-		//Colocamos la barra de menú
+		//Colocamos la barra de menï¿½
 		barraMenu=new JMenuBar();
 		ventana.setJMenuBar(barraMenu);
 		menuArchivo=new JMenu("Archivo");
@@ -90,5 +94,13 @@ public class Sampler {
 		
 		ventana.setVisible(true);
 		
+	}
+
+	public BotonSampler[][] getBotones() {
+		return botones;
+	}
+
+	public void setBotones(BotonSampler[][] botones) {
+		this.botones = botones;
 	}
 }

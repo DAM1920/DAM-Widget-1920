@@ -12,10 +12,12 @@ public class ReproduccionSonido extends Thread implements Serializable{
 	File fich;
 	boolean pausa;
 	Player apl;
+	BotonSampler boton;
 
-	public ReproduccionSonido(File fich) {
+	public ReproduccionSonido(File fich, BotonSampler boton) {
 		this.fich = fich;
 		pausa = true;
+		this.boton=boton;
 		try {
 			apl=new Player(new FileInputStream(fich));
 		} catch (FileNotFoundException e) {
@@ -28,7 +30,7 @@ public class ReproduccionSonido extends Thread implements Serializable{
 	}
 
 	/**
-	 * Reproduce el sonido cuya ruta le hemos pasado por parámetros
+	 * Reproduce el sonido cuya ruta le hemos pasado por parï¿½metros
 	 */
 	
 
@@ -40,13 +42,14 @@ public class ReproduccionSonido extends Thread implements Serializable{
 					if (!apl.play(1)) {
 						break;
 					}
+					
 				}
 			}
 		} catch (JavaLayerException e) {
 			e.printStackTrace();
 		}
-		pausa=true;
-
+		parar();
+		boton.parar();
 	}
 
 	public boolean isPausado() {
