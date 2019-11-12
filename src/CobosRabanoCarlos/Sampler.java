@@ -50,11 +50,8 @@ public class Sampler {
 		itemAbrir.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				botones=Utilidades.cargarSampler(botones, ventana);
-				ventana.revalidate();
-				ventana.repaint();
-				
+			public void actionPerformed(ActionEvent e) {				
+				botones=Utilidades.cargarSampler(botones, ventana);	
 			}
 		});
 	}
