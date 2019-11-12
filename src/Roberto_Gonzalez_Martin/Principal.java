@@ -2,7 +2,7 @@ package Roberto_Gonzalez_Martin;
 
 import java.awt.EventQueue;
 
-import Redondo_Garcia_Jesus.VentanaPrincipal;
+import Roberto_Gonzalez_Martin.VentanaPrincipal;
 
 public class Principal {
 
