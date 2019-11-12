@@ -1,9 +1,21 @@
 package García_Pérez_José_Daniel;
 
+import java.awt.EventQueue;
+
 public class Principal {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+		EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				VentanaPrincipal vp = new VentanaPrincipal();
+
+				vp.inicializar();
+
+			}
+		});
 
 	}
 
