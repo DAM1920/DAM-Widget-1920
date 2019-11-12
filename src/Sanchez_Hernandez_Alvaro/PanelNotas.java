@@ -31,6 +31,7 @@ public class PanelNotas extends JPanel{
 	public PanelNotas(JFrame asociada) {
 		super();
 		ventanaAsociada = asociada;
+		
 		inicializarComponentes();
 		inicializarListeners();
 	}
@@ -94,8 +95,11 @@ public class PanelNotas extends JPanel{
 		String nombre = new Scanner(System.in).nextLine()+".txt";
 		
 		//Declaramos el lugar donde se va a guardar
-		File directorio = new File("notas");
+		File directorio = new File("Notas");
 		File archivo = new File(directorio,nombre);
+		if(!directorio.exists()) {
+			directorio.mkdir();
+		}
 		
 		try {
 			//Declaramos los writer.
