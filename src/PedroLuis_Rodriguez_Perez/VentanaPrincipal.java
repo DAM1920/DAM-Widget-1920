@@ -12,5 +12,6 @@ public class VentanaPrincipal {
 		marco.add(form);
 		marco.setBounds(0, 0, 1000, 1000);
 		marco.setVisible(true);
+		
 	}
 }

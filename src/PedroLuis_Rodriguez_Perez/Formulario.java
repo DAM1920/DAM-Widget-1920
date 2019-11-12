@@ -1,5 +1,6 @@
 package PedroLuis_Rodriguez_Perez;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -13,17 +14,24 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 public class Formulario extends JPanel {
+	String [] atributos = {"Nombre","Apellido","DNI","Ciudad","Edad"};
 	JPanel formulario;
 	JPanel visor;
 
 	JLabel[] etiquetas;
 	JTextField[] cuadrosDeTexto;
-	
+		
+	JTable tabla;
+	DefaultTableModel model = new DefaultTableModel(); 
+
 	JButton almacenar;
-	String [] atributos = {"Nombre","Apellido","DNI","Ciudad","Edad"};
+	
 
 	public Formulario() {
 		this.setLayout(new GridBagLayout());
@@ -31,10 +39,14 @@ public class Formulario extends JPanel {
 		formulario = new JPanel();
 		formulario.setLayout(new GridBagLayout());		
 		visor = new JPanel();
-		visor.setLayout(new GridBagLayout());
+		visor.setLayout(new GridLayout(1,1));
 		
+		tabla = new JTable(model);
+		for (int i = 0; i < atributos.length; i++) {
+			model.addColumn(atributos[i]);
+		}
 		
-		
+				
 		almacenar= new JButton("Almacenar");
 		
 		etiquetas = new JLabel[atributos.length];
@@ -59,18 +71,18 @@ public class Formulario extends JPanel {
 		
 		// Formulario
 		formulario.setBorder(BorderFactory.createTitledBorder("Formulario"));
-		formulario.setBackground(new Color(223,235,192));
-		
+		formulario.setBackground(new Color(223,235,192));	
 		settings.weightx=1;
 		settings.weighty=1;			
-		this.add(formulario,settings);
+		this.add((new JScrollPane(formulario)),settings);
 
 		// Visor
 		visor.setBorder(BorderFactory.createTitledBorder("Visor"));
 		visor.setBackground(new Color(216,229,237));
 		
-		settings.weightx=3;
-		settings.weighty=3;
+		
+		settings.weightx=4;
+		settings.weighty=4;
 		this.add(visor,settings);
 		
 		settings = new GridBagConstraints();		
@@ -92,8 +104,7 @@ public class Formulario extends JPanel {
 		}
 		
 		
-		//Boton almacenar
-		
+	
 		settings =new GridBagConstraints();
 		
 		settings.gridy = atributos.length;
@@ -114,8 +125,23 @@ public class Formulario extends JPanel {
 					
 				}
 				System.out.println(cadena);
+		
+							
+												
 				visor.removeAll();
-				visor.add(new JLabel(cadena));
+				
+				String values [] = new String[cuadrosDeTexto.length];
+				for (int j = 0; j < values.length; j++) {
+					values[j] = cuadrosDeTexto[j].getText();
+				}							
+				if(visor.isVisible()) {
+					visor.setVisible(false);
+				}
+				else {
+					visor.setVisible(true);
+				}
+				//model.addRow(values);				
+				visor.add(new JScrollPane(tabla),BorderLayout.CENTER);
 				refrescarPantalla();
 			}			
 		});
