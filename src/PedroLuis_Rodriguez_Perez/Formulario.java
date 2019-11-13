@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -79,7 +80,7 @@ public class Formulario extends JPanel {
 		// Visor
 		visor.setBorder(BorderFactory.createTitledBorder("Visor"));
 		visor.setBackground(new Color(216,229,237));
-		
+		visor.add(new JScrollPane(tabla),BorderLayout.CENTER);
 		
 		settings.weightx=4;
 		settings.weighty=4;
@@ -128,20 +129,28 @@ public class Formulario extends JPanel {
 		
 							
 												
-				visor.removeAll();
+				
 				
 				String values [] = new String[cuadrosDeTexto.length];
+				boolean compCamposVacios = false;
 				for (int j = 0; j < values.length; j++) {
 					values[j] = cuadrosDeTexto[j].getText();
-				}							
-				if(visor.isVisible()) {
+					if(cuadrosDeTexto[j].getText().equals("")) {
+						compCamposVacios = true;
+					}
+				}
+				
+				if(compCamposVacios) {
+					JOptionPane.showMessageDialog(null, "Todos los campos deben estar rellenos");
+				}else {
+					model.addRow(values);
+				}
+				/*if(visor.isVisible()) {
 					visor.setVisible(false);
 				}
 				else {
 					visor.setVisible(true);
-				}
-				//model.addRow(values);				
-				visor.add(new JScrollPane(tabla),BorderLayout.CENTER);
+				}*/											
 				refrescarPantalla();
 			}			
 		});
