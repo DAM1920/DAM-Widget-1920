@@ -3,11 +3,12 @@ package Macias_Castela_Tomas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Rectangle;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -15,8 +16,10 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
 
 public class Calendario extends JDialog {
 	/**
@@ -28,26 +31,39 @@ public class Calendario extends JDialog {
 	String[] month = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Septiembre", "Octube",
 			"Noviembre", "Diciembre" };
 	String[] dia = { "Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom" };
+	
 	JButton[] botonDia = new JButton[42];
 	JPanel[] panelNumDia = new JPanel[42];
 	JPanel panelEncabezado, panelDia;
 	JLabel[] textoDias = new JLabel[7];
 	JLabel mesYearActual;
-	
+
 	int yearPrincipio = 60, yearFinal = 60;
-	int yearActual, mesSelec, numDia, maxDia, diaPrincipal;
-	
+	int yearActual, mesSelec, numDia, maxDia, diaPrincipal, mesReal;
+
 	GregorianCalendar cal = new GregorianCalendar();
 	GridBagConstraints gbc = new GridBagConstraints();
 	Font texto = new Font("Arial", Font.BOLD, 11);
-	
+
 	Calendar calendario = Calendar.getInstance();
 	int diaActual = calendario.get(Calendar.DAY_OF_MONTH);
-	int mesReal;
 	
+
 	public Calendario() {
 		setModal(true);
 		setBounds(0, 0, 450, 350);
+		setResizable(false);
+		/*
+		 * Abrimos el calendario abajo a la izquierda. Para ello conseguimos la
+		 * dimension de la pantalla de alto y horizontal.
+		 */
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice gd = ge.getDefaultScreenDevice();
+		Rectangle rect = gd.getDefaultConfiguration().getBounds();
+		int x = (int) rect.getMaxX() - this.getWidth();
+		int y = (int) rect.getMaxY() - (this.getHeight() + 50);
+		setLocation(x, y);
+
 		this.setLayout(new GridBagLayout());
 		iniciarComboBox();
 		insertarEncabezado();
@@ -55,27 +71,26 @@ public class Calendario extends JDialog {
 		insertarDias(mesSelec, yearActual);
 		cambiarMes();
 		cambiarYear();
-		insertarNotas();
 	}
 
 	/**
 	 * Metodo para iniciarlizar el JComboBox.
 	 */
 	public void iniciarComboBox() {
-		//Sacamos el año actual
+		// Sacamos el año actual
 		yearActual = cal.get(GregorianCalendar.YEAR);
-		//Sacamos el mes actual.
+		// Sacamos el mes actual.
 		mesReal = cal.get(GregorianCalendar.MONTH);
-		//Seleccionamos el mes. 
-		mesSelec = mesReal-1;
+		// Seleccionamos el mes.
+		mesSelec = mesReal - 1;
 		mes = new JComboBox<String>(month);
-		//El mes seleccionado por defecto.
+		// El mes seleccionado por defecto.
 		mes.setSelectedIndex(mesSelec);
-		//Añadimos la lista de los años.
+		// Añadimos la lista de los años.
 		for (int i = yearActual - yearPrincipio; i < yearActual + yearFinal; i++) {
 			year.addItem(String.valueOf(i));
 		}
-		//El año seleccionado por defecto.
+		// El año seleccionado por defecto.
 		year.setSelectedIndex(yearPrincipio);
 	}
 
@@ -89,7 +104,7 @@ public class Calendario extends JDialog {
 		panelEncabezado.add(mes);
 		// Mes y año seleccionado.
 		gbc = new GridBagConstraints();
-		mesYearActual = new JLabel(mes.getItemAt(mesSelec) + " " + yearActual);
+		mesYearActual = new JLabel(mes.getItemAt(mesSelec) + "-" + yearActual);
 		mesYearActual.setHorizontalAlignment(SwingUtilities.CENTER);
 		gbc.ipadx = 30;
 		panelEncabezado.add(mesYearActual, gbc);
@@ -123,6 +138,7 @@ public class Calendario extends JDialog {
 			botonDia[j].setMaximumSize(new Dimension(50, 25));
 			botonDia[j].setPreferredSize(new Dimension(50, 25));
 			botonDia[j].setEnabled(false);
+			botonDia[j].setBackground(Color.WHITE);
 			panelNumDia[j].add(botonDia[j]);
 			panelDia.add(panelNumDia[j]);
 		}
@@ -137,30 +153,34 @@ public class Calendario extends JDialog {
 	 * Iniciar los botones con dias.
 	 */
 	public void insertarDias(int mesSelec, int yearActual) {
+		// Obtenemos el calendario pasando el año, el mes y el dia 1. Al mes se le suma
+		// uno porque empieza desde 1 y no desde 0.
 		cal = new GregorianCalendar(yearActual, mesSelec + 1, 1);
 		// Maximos de dias del mes.
 		maxDia = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
 		// El dia 1 que dia de la semana cae.
 		diaPrincipal = cambiarDiaPrincipal(cal.get(GregorianCalendar.DAY_OF_WEEK));
-		
+
 		// Ponemos todo a 0 si hay algo escrito.
 		for (int j = 0; j < botonDia.length; j++) {
 			botonDia[j].setText("");
 			botonDia[j].setEnabled(false);
-			botonDia[j].setBackground(null);
+			botonDia[j].setBackground(Color.WHITE);
 		}
 
 		// Insertamos los digitos en sus respectivos dias.
 		for (int i = 1; i <= maxDia; i++) {
 			botonDia[diaPrincipal].setText(String.valueOf(i));
 			botonDia[diaPrincipal].setEnabled(true);
-			if(diaPrincipal==diaActual && mesReal==mesSelec+1) {
+
+			if (i == diaActual && mesReal == mesSelec + 1) {
 				botonDia[diaPrincipal].setBackground(Color.LIGHT_GRAY);
-			}else {
+			} else {
 				botonDia[diaPrincipal].setBackground(Color.WHITE);
-			}			
+			}
 			diaPrincipal++;
 		}
+		insertarNotas(mesSelec, yearActual);
 	}
 
 	/**
@@ -195,11 +215,13 @@ public class Calendario extends JDialog {
 		mes.addActionListener(e -> {
 			if (mes.getSelectedItem() != null) {
 				mesSelec = mes.getSelectedIndex();
-				mesYearActual.setText(mes.getItemAt(mesSelec) + " " + yearActual);
+				mesYearActual.setText(mes.getItemAt(mesSelec) + "-" + yearActual);
 				insertarDias(mesSelec, yearActual);
+
 			}
 		});
 	}
+
 	/**
 	 * Accion si pulsamos para cambiar el año.
 	 */
@@ -208,31 +230,38 @@ public class Calendario extends JDialog {
 			if (year.getSelectedItem() != null) {
 				String y = year.getSelectedItem().toString();
 				yearActual = Integer.parseInt(y);
-				mesYearActual.setText(mes.getItemAt(mesSelec) + " " + yearActual);
+				mesYearActual.setText(mes.getItemAt(mesSelec) + "-" + yearActual);
 				insertarDias(mesSelec, yearActual);
 			}
 		});
 	}
-	
+
 	/**
 	 * Acciones para añadir ficheros.
 	 */
-	public void insertarNotas() {
+	public void insertarNotas(int mesSelec, int yearActual) {
+		cal = new GregorianCalendar(yearActual, mesSelec + 1, 1);
+		// Maximos de dias del mes.
+		maxDia = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+		// El dia 1 que dia de la semana cae.
 		diaPrincipal = cambiarDiaPrincipal(cal.get(GregorianCalendar.DAY_OF_WEEK));
-		System.out.println(maxDia);
 		for (int i = 1; i <= maxDia; i++) {
-			System.out.println(diaPrincipal);
-			diaPrincipal = i;
-			botonDia[diaPrincipal].addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					System.out.println("Hola "+botonDia[diaPrincipal].getText());
-					
-				}
+			int pos = diaPrincipal;
+			botonDia[diaPrincipal].addActionListener(e -> {
+				botonDia[pos].setBackground(Color.GREEN);
+				escribirNota(botonDia[pos], mesYearActual);
 			});
 			diaPrincipal++;
 		}
+	}
+
+	public void escribirNota(JButton botonDia, JLabel mesYearActual2) {
+		String nota = JOptionPane.showInputDialog(null, "Nota", "Escriba la nota", JOptionPane.DEFAULT_OPTION);
+		System.out.println(nota);
+		
+		
+		System.out.print(botonDia.getText() + "-");
+		System.out.println(mesYearActual2.getText());
 	}
 
 }

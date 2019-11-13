@@ -14,11 +14,13 @@ public class Ventana {
 	public Ventana() {
 		this.vent = new JFrame("Calendario");
 		vent.setBounds(0,0,150,75);
+		vent.setResizable(false);
 		vent.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public void inicializar() {
 		vent.setVisible(true);
+		
 		
 		vent.setLayout(new GridLayout());
 		componentes();
