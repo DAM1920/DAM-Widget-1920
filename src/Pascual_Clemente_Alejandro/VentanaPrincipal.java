@@ -56,8 +56,7 @@ public class VentanaPrincipal {
 		settings = new GridBagConstraints();
 		settings.gridx = 0;
 		settings.gridy = 0;
-		settings.ipadx = 3;
-		settings.ipady = 3;
+		settings.insets = new Insets(0, 0, 10, 0);
 		ventana.add(selc1, settings);
 		
 		//Colocar selector2
@@ -70,18 +69,16 @@ public class VentanaPrincipal {
 		settings = new GridBagConstraints();
 		settings.gridx = 2;
 		settings.gridy = 0;
-		settings.ipadx = 3;
-		settings.ipady = 3;
+		settings.insets = new Insets(0, 0, 10, 0);
 		ventana.add(selc2, settings);
 		
 		//Colocar texto a traducir
-		textoTraducir = new JTextArea(5,10);
+		textoTraducir = new JTextArea("Introduce el texto a traducir", 5,15);
 		textoTraducir.setBorder(BorderFactory.createLineBorder(Color.black));
 		settings = new GridBagConstraints();
 		settings.gridx = 0;
 		settings.gridy = 1;
-		settings.ipadx = 3;
-		settings.ipady = 3;
+		settings.insets = new Insets(0, 0, 0, 10);
 		ventana.add(textoTraducir, settings);
 		
 		//Colocar boton traducir
@@ -90,19 +87,16 @@ public class VentanaPrincipal {
 		settings = new GridBagConstraints();
 		settings.gridx = 1;
 		settings.gridy = 1;
-		settings.ipadx = 3;
-		settings.ipady = 3;
 		ventana.add(traducir, settings);
 		
 		//Colocar texto a traducido
-		textoTraducido = new JTextArea(5,10);
+		textoTraducido = new JTextArea("Aquí el texo ya traducido", 5,15);
 		textoTraducido.setBorder(BorderFactory.createLineBorder(Color.black));
 		textoTraducido.setEditable(false);
 		settings = new GridBagConstraints();
 		settings.gridx = 2;
 		settings.gridy = 1;
-		settings.ipadx = 3;
-		settings.ipady = 3;
+		settings.insets = new Insets(0, 10, 0, 0);
 		ventana.add(textoTraducido, settings);
 		
 	}
