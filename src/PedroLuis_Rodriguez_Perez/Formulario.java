@@ -16,15 +16,17 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-public class Formulario extends JPanel {
-	String [] atributos = {"Nombre","Apellido","DNI","Ciudad","Edad"};
+public class Formulario extends JPanel {	
 	JPanel formulario;
 	JPanel visor;
-
+	
+	JTabbedPane panelTabbed;
+	
 	JLabel[] etiquetas;
 	JTextField[] cuadrosDeTexto;
 		
@@ -32,11 +34,13 @@ public class Formulario extends JPanel {
 	DefaultTableModel model = new DefaultTableModel(); 
 
 	JButton almacenar;
+	JButton cambiarVista;
 	
+	String [] atributos;
 
-	public Formulario() {
-		this.setLayout(new GridBagLayout());
-
+	public Formulario(String[] atributos) {
+		this.setLayout(new GridLayout());
+		this.atributos = atributos;
 		formulario = new JPanel();
 		formulario.setLayout(new GridBagLayout());		
 		visor = new JPanel();
@@ -49,6 +53,7 @@ public class Formulario extends JPanel {
 		
 				
 		almacenar= new JButton("Almacenar");
+		cambiarVista= new JButton("Cambiar vista-->");
 		
 		etiquetas = new JLabel[atributos.length];
 		cuadrosDeTexto = new JTextField[atributos.length];
@@ -57,7 +62,9 @@ public class Formulario extends JPanel {
 			etiquetas[i] = new JLabel(atributos[i]);
 			cuadrosDeTexto[i] = new JTextField();
 		}
-
+		
+		panelTabbed = new JTabbedPane();
+		
 		inicializarComponentes();
 	}
 	private void refrescarPantalla() {
@@ -67,24 +74,30 @@ public class Formulario extends JPanel {
 	}
 	private void inicializarComponentes() {
 		GridBagConstraints settings = new GridBagConstraints();
-		settings.fill = GridBagConstraints.BOTH;
 		
 		
-		// Formulario
+		
+		// Formulario		
 		formulario.setBorder(BorderFactory.createTitledBorder("Formulario"));
-		formulario.setBackground(new Color(223,235,192));	
-		settings.weightx=1;
-		settings.weighty=1;			
-		this.add((new JScrollPane(formulario)),settings);
+		formulario.setBackground(new Color(223,235,192));
+		
+		panelTabbed.addTab("Formulario",new JScrollPane(formulario));
 
-		// Visor
+		// Visor		
 		visor.setBorder(BorderFactory.createTitledBorder("Visor"));
 		visor.setBackground(new Color(216,229,237));
-		visor.add(new JScrollPane(tabla),BorderLayout.CENTER);
+		tabla.setBackground(new Color(216,229,237));
 		
-		settings.weightx=4;
-		settings.weighty=4;
-		this.add(visor,settings);
+		visor.add(new JScrollPane(tabla));
+		
+		settings.weightx = 1;
+		settings.weighty = 1;
+		settings.fill = GridBagConstraints.BOTH;
+		panelTabbed.addTab("Visor del Fichero",new JScrollPane(visor));
+		
+		
+		this.add(panelTabbed);
+		//Añado las etiquetas y los cuadros de Texto
 		
 		settings = new GridBagConstraints();		
 		settings.insets = new Insets(0, 0, 40, 0);
@@ -105,7 +118,20 @@ public class Formulario extends JPanel {
 		}
 		
 		
-	
+		//Boton cambiar vista
+		
+		settings =new GridBagConstraints();
+		settings.gridx =0;
+		settings.gridy =0;
+		settings.gridwidth=2;
+		settings.weighty=2;
+		settings.fill=GridBagConstraints.BOTH;
+		
+//		this.add(cambiarVista,settings);
+		
+		
+		//Boton almacenar
+		
 		settings =new GridBagConstraints();
 		
 		settings.gridy = atributos.length;
@@ -118,18 +144,6 @@ public class Formulario extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {				
-				String cadena="";
-				
-				for (int i = 0; i < atributos.length; i++) {
-					cadena+="  -"+atributos[i]+":  ";
-					cadena+=cuadrosDeTexto[i].getText();
-					
-				}
-				System.out.println(cadena);
-		
-							
-												
-				
 				
 				String values [] = new String[cuadrosDeTexto.length];
 				boolean compCamposVacios = false;
@@ -145,15 +159,25 @@ public class Formulario extends JPanel {
 				}else {
 					model.addRow(values);
 				}
-				/*if(visor.isVisible()) {
-					visor.setVisible(false);
-				}
-				else {
-					visor.setVisible(true);
-				}*/											
+													
 				refrescarPantalla();
 			}			
 		});
+		
+		/*cambiarVista.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(visor.isVisible()) {
+					visor.setVisible(false);
+					formulario.setVisible(true);
+				}
+				else {
+					visor.setVisible(true);
+					formulario.setVisible(false);
+				}				
+			}
+		});*/
 		
 
 	}
