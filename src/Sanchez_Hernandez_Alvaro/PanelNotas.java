@@ -5,20 +5,22 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Scanner;
+
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 
-public class PanelNotas extends JPanel{
+public class PanelNotas extends JDialog implements KeyListener{
 
 	private static final long serialVersionUID = 5266212298815899686L;
 	private GridBagLayout layout;
@@ -26,12 +28,15 @@ public class PanelNotas extends JPanel{
 	private JButton cerrar;
 	private JTextArea texto;
 	private GridBagConstraints settings;
-	private JFrame ventanaAsociada;
+	private JDialog miDialog = this;
 	
-	public PanelNotas(JFrame asociada) {
+	
+	public PanelNotas() {
 		super();
-		ventanaAsociada = asociada;
-		
+		this.setBounds(0, 0, 500, 600);
+		this.setVisible(true);
+		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+		this.addKeyListener(this);
 		inicializarComponentes();
 		inicializarListeners();
 	}
@@ -78,7 +83,7 @@ public class PanelNotas extends JPanel{
 	}
 	//Cierra el panel
 	public void cerrarVentana() {
-		ventanaAsociada.remove(this);
+		this.dispose();
 	}
 	/**
 	 * 
@@ -91,9 +96,7 @@ public class PanelNotas extends JPanel{
 	}
 	public void guardarFichero() {
 		//Pedimos nombre del fichero.
-		System.out.println("Introduzca el nombre del fichero: ");
-		String nombre = new Scanner(System.in).nextLine()+".txt";
-		
+		String nombre  = JOptionPane.showInputDialog("Introduce el nombre del fichero")+".txt";
 		//Declaramos el lugar donde se va a guardar
 		File directorio = new File("Notas");
 		File archivo = new File(directorio,nombre);
@@ -132,4 +135,26 @@ public class PanelNotas extends JPanel{
 		});
 		
 	}
+	
+	//Abre el panel si se pincha la tecla ALT.
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int key = e.getKeyCode();
+		if(key == KeyEvent.VK_ALT) {
+			miDialog.setVisible(true);
+		}	
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

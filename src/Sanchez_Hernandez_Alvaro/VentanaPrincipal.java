@@ -1,5 +1,7 @@
 package Sanchez_Hernandez_Alvaro;
 
+
+
 import javax.swing.JFrame;
 
 public class VentanaPrincipal {
@@ -14,8 +16,7 @@ public class VentanaPrincipal {
 	}
 	public void inicializar() {
 		marco.setVisible(true);
-		
-		panel = new PanelNotas(marco);
-		marco.add(panel);
+		panel = new PanelNotas();
 	}
+	
 }
