@@ -30,6 +30,7 @@ public class Sampler {
 	JMenu menuArchivo;
 	JMenuItem itemGuardar;
 	JMenuItem itemAbrir;
+	JMenuItem itemSalir;
 	
 	
 	public Sampler() {
@@ -56,6 +57,14 @@ public class Sampler {
 				Utilidades.cargarSampler(botones, ventana);	
 				ventana.revalidate();
 				ventana.repaint();
+			}
+		});
+		itemSalir.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ventana.dispose();
+				
 			}
 		});
 	}
@@ -86,10 +95,12 @@ public class Sampler {
 		ventana.setJMenuBar(barraMenu);
 		menuArchivo=new JMenu("Archivo");
 		itemGuardar=new JMenuItem("Guardar sampler");
-		itemAbrir=new JMenuItem("Abrir fichero");		
+		itemAbrir=new JMenuItem("Abrir sampler");
+		itemSalir=new JMenuItem("Salir");
 		barraMenu.add(menuArchivo);
-		menuArchivo.add(itemGuardar);
 		menuArchivo.add(itemAbrir);
+		menuArchivo.add(itemGuardar);
+		menuArchivo.add(itemSalir);
 		
 		
 		ventana.setVisible(true);
