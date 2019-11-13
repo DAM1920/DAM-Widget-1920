@@ -1,7 +1,11 @@
 package Macias_Castela_Tomas;
 
 import java.awt.EventQueue;
-
+/**
+ * 
+ * @author Tomas Macias Castela
+ *
+ */
 public class Principal {
 
 	public static void main(String[] args) {
