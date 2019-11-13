@@ -30,7 +30,7 @@ public class BotonSampler extends JButton implements MouseListener, Serializable
 		select=chooser.showOpenDialog(this);
 		if(select==JFileChooser.APPROVE_OPTION) {
 			fichero=chooser.getSelectedFile();
-			descripcion=JOptionPane.showInputDialog(this,"Escribe una descripciï¿½n del sonido");
+			descripcion=JOptionPane.showInputDialog(this,"Escribe una descripción del sonido");
 			setText(descripcion);
 			sonido=new ReproduccionSonido(fichero, this);
 		}
@@ -38,12 +38,12 @@ public class BotonSampler extends JButton implements MouseListener, Serializable
 	
 	private void sonar() {
 		sonido.start();
-		setBackground(Color.GREEN);
+		setBackground(new Color(85, 238, 172));
 	}
 	
 	public void parar() {
 		sonido.parar();
-		setBackground(Color.BLUE);
+		setBackground(new Color(59, 89, 182));
 		sonido=new ReproduccionSonido(fichero, this);
 	}
 
@@ -61,6 +61,7 @@ public class BotonSampler extends JButton implements MouseListener, Serializable
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+		setText(descripcion);
 	}	
 
 	public ReproduccionSonido getSonido() {

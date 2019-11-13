@@ -20,11 +20,11 @@ public class Utilidades {
 	public static void guardarSampler(BotonSampler[][] botones) {
 		File f=new File("./sampler.sam");
 		String descripciones[][]=new String[4][4];
-		File [][] direcciones=new File[4][4];
+		String [][] direcciones=new String[4][4];
 		for (int i = 0; i < botones.length; i++) {
 			for (int j = 0; j < botones[i].length; j++) {
 				descripciones[i][j]=botones[i][j].getDescripcion();
-				direcciones[i][j]=botones[i][j].getFichero();
+				direcciones[i][j]=botones[i][j].getFichero().getPath();
 			}
 		}
 		try {
@@ -41,7 +41,7 @@ public class Utilidades {
 	public static void cargarSampler(BotonSampler[][] botones, JFrame actual) {
 		JFrame ventana=actual;
 		String[][] descripciones;
-		File[][] direcciones;
+		String[][] direcciones;
  		JFileChooser chooser=new JFileChooser(".");
 		chooser.setFileFilter(new FiltroExt(".sam"));
 		int select;
@@ -53,13 +53,13 @@ public class Utilidades {
 			try {
 				ois = new ObjectInputStream(new FileInputStream(f));
 				descripciones=(String[][])ois.readObject();
-				direcciones=(File[][])ois.readObject();
+				direcciones=(String[][])ois.readObject();
 				for (int i = 0; i < botones.length; i++) {
 					for (int j = 0; j < botones[i].length; j++) {
 						botones[i][j].setDescripcion(descripciones[i][j]);
 						botones[i][j].setText(descripciones[i][j]);
-						botones[i][j].setFichero(direcciones[i][j]);
-						botones[i][j].setSonido(new ReproduccionSonido(direcciones[i][j], botones[i][j]));
+						botones[i][j].setFichero(new File( direcciones[i][j]));
+						botones[i][j].setSonido(new ReproduccionSonido(new File( direcciones[i][j]), botones[i][j]));
 					}
 				}
 			} catch (IOException e) {
