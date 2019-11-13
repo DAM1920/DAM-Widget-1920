@@ -155,7 +155,7 @@ public class Formulario extends JPanel {
 				}
 				
 				if(compCamposVacios) {
-					JOptionPane.showMessageDialog(null, "Todos los campos deben estar rellenos");
+					JOptionPane.showMessageDialog(almacenar, "Todos los campos deben estar rellenos");
 				}else {
 					model.addRow(values);
 				}
