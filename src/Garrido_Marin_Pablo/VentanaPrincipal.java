@@ -27,7 +27,7 @@ public class VentanaPrincipal {
 
 	public void inicializarComponentes() {
 		this.ventana.setLayout(new GridLayout(1, 2));
-		buscador = new Buscador(this);
+		buscador = new Buscador();
 		ventana.add(buscador);
 
 	}
