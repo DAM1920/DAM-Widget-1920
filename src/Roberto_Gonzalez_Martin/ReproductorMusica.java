@@ -2,10 +2,14 @@ package Roberto_Gonzalez_Martin;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
@@ -23,6 +27,7 @@ public class ReproductorMusica extends JDialog{
 	JButton detener;
 	JSlider volumen;
 	JSlider avanceCancion;
+	File cancion;
 	
 	public ReproductorMusica() {
 		super();
@@ -65,7 +70,7 @@ public class ReproductorMusica extends JDialog{
 		panelCentral = new JPanel();
 		panelCentral.setLayout(new GridLayout(1,1));
 		panelCentral.setBorder(BorderFactory.createTitledBorder("Progreso de la canción"));
-		avanceCancion = new JSlider(0,100);
+		avanceCancion = new JSlider(JSlider.HORIZONTAL,0,100,0);
 		panelCentral.add(avanceCancion);
 		this.add(panelCentral);
 		
@@ -105,7 +110,7 @@ public class ReproductorMusica extends JDialog{
 		panelInferior.add(avanzar,settingObjeto);
 		
 		settingObjeto = new GridBagConstraints();
-		volumen = new JSlider(0,100);
+		volumen = new JSlider(JSlider.HORIZONTAL,0,100,50);
 		volumen.setBorder(BorderFactory.createTitledBorder("Volumen"));
 		settingObjeto.gridx = 4;
 		settingObjeto.gridy = 0;
@@ -120,6 +125,14 @@ public class ReproductorMusica extends JDialog{
 	 * Método que añade todos los listeners al Dialog
 	 */
 	private void anadirListeners(){
-		
+		carpeta.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.showOpenDialog(fileChooser);
+				cancion = fileChooser.getSelectedFile();
+				nombreCancion.setText(cancion.getName());
+			}
+		});
 	}
 }
