@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 public class VentanaPrincipal {
 	JFrame ventana;
 	JTextField buscadorRuta;
-	JButton botonBuscar;
+	JButton botonBuscar, botonPlay, botonPause, botonAvanzar, botonRetroceder;
 	Galeria galeria;
 	
 	public VentanaPrincipal() {
@@ -27,8 +27,12 @@ public class VentanaPrincipal {
 	public void inicializarComponentes() {
 		ventana.setLayout(new GridBagLayout());
 		
+		//Inicialización de la Galería
+		galeria = new Galeria();
+		
 		//Inicialización del JTextField
 		buscadorRuta = new JTextField();
+		
 		
 		
 	}
