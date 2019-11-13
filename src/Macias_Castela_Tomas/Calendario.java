@@ -172,7 +172,9 @@ public class Calendario extends JDialog {
 	}
 
 	/**
-	 * Inicializar los botones con dias.
+	 * Metodo para insertar los dias.
+	 * @param mesSelec Mes seleccionado del JComboBox.
+	 * @param yearActual Año seleccionado del JComboBox.
 	 */
 	public void insertarDias(int mesSelec, int yearActual) {
 		// Obtenemos el calendario pasando el año, el mes y el dia 1. Al mes se le suma
@@ -339,6 +341,7 @@ public class Calendario extends JDialog {
 	 * @param respuesta 0: Significa que va a leer lo que hay escrito. 1: Realizas
 	 *                  una modificacion en la nota. 2: Borras la nota.
 	 * @param fileDia   Le pasas la ruta del fichero donde se encuentra.
+	 * @param dia       El dia donde hemos seleccionado.
 	 */
 	public void modificacionNota(int respuesta, File fileDia, String dia) {
 		switch (respuesta) {
