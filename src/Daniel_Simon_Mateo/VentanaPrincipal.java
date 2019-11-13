@@ -6,9 +6,11 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +22,7 @@ import javax.swing.*;
 import javax.swing.event.InternalFrameListener;
 
 public class VentanaPrincipal {
+	Icon panelBlanco;
 	JFrame marco;
 	JLabel casillas[][];
 	JPanel panelMovimientos;
@@ -32,6 +35,16 @@ public class VentanaPrincipal {
 		marco = new JFrame();
 		marco.setBounds(100, 100, 450, 500);
 		marco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		InputStream is;
+		try {
+			is = new BufferedInputStream(new FileInputStream("img\\W.jpg"));
+			Image aux = ImageIO.read(is);
+			panelBlanco=(new ImageIcon(aux));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void inicializarComponentes() {
@@ -91,7 +104,7 @@ public class VentanaPrincipal {
 			}
 		}
 		
-		//Se le da una imagen al azar a todos los botones salvo a uno
+		//Se le da una imagen al azar a todos los botones
 		while(imagenes.size()>0) {
 			y=(int)(Math.random()*3);
 			x=(int)(Math.random()*3);
@@ -102,7 +115,7 @@ public class VentanaPrincipal {
 			}
 		}
 		
-		//Se añaden los botones al panel de juego
+		//Se añaden las casillas al panel de juego
 		for (int i = 0; i < casillas.length; i++) {
 			for (int j = 0; j < casillas[i].length; j++) {
 				settings = new GridBagConstraints();
@@ -111,53 +124,69 @@ public class VentanaPrincipal {
 				panelJuego.add(casillas[i][j],settings);
 			}
 		}
+		
+		iniciarListeners();
 
 	}
 	
-	public void inicializarListeners() {
+	public void iniciarListeners() {
 		for (int i = 0; i < casillas.length; i++) {
 			for (int j = 0; j < casillas[i].length; j++) {
-				casillas[i][j].addMouseListener(new MouseListener() {
-					
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-						comprobarAdyacentes();
-						
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
+				casillas[i][j].addMouseListener(new MiBotonPuzle(this, j, i));
 			}
 		}
 	}
 	
 	/**
-	 * Comprueba las posiciones norte, sur, este y oeste en busca de la casilla blanca (W.jpg)
+	 * Comprueba las posiciones norte, sur, este y oeste en busca de la casilla blanca
 	 */
-	public void comprobarAdyacentes() {
+	public void comprobarCasillasAdyacentes(int posX,int posY) {
+		//[posX][posY-1] ARRIBA
+		if((posX>0)&&(posX<3)&&(posY-1>0)&&(posY-1<3)) {
+			if((casillas[posX][posY-1].getIcon() == panelBlanco)) {
+				ImageIcon auxiliar = (ImageIcon) casillas[posX][posY-1].getIcon();
+				casillas[posX][posY-1].setIcon((ImageIcon)casillas[posX][posY].getIcon());
+				casillas[posX][posY].setIcon((ImageIcon)auxiliar);
+				aumentarMovimientos();
+			}
+		}
 		
+		//[posX-1][posY] IZQUIERDA
+		if((posX-1>0)&&(posX-1<3)&&(posY>0)&&(posY<3)) {
+			if(casillas[posX-1][posY].getIcon() == panelBlanco) {
+				ImageIcon auxiliar = (ImageIcon) casillas[posX-1][posY].getIcon();
+				casillas[posX-1][posY].setIcon((ImageIcon)casillas[posX][posY].getIcon());
+				casillas[posX][posY].setIcon((ImageIcon)auxiliar);
+				aumentarMovimientos();
+			}
+		}
+		
+		//[posX+1][posY] DERECHA
+		if((posX+1>0)&&(posX+1<3)&&(posY>0)&&(posY<3)) {
+			if(casillas[posX+1][posY].getIcon() == panelBlanco) {
+				ImageIcon auxiliar = (ImageIcon) casillas[posX+1][posY].getIcon();
+				casillas[posX+1][posY].setIcon((ImageIcon)casillas[posX][posY].getIcon());
+				casillas[posX][posY].setIcon((ImageIcon)auxiliar);
+				aumentarMovimientos();
+			}
+		}
+		
+		//[posX][posY+1] ABAJO
+		if((posX>0)&&(posX<3)&&(posY+1>0)&&(posY+1<3)) {
+			if(casillas[posX][posY+1].getIcon() == panelBlanco) {
+				ImageIcon auxiliar = (ImageIcon) casillas[posX][posY+1].getIcon();
+				casillas[posX][posY+1].setIcon((ImageIcon)casillas[posX][posY].getIcon());
+				casillas[posX][posY].setIcon((ImageIcon)auxiliar);
+				aumentarMovimientos();
+			}
+		}
+	}
+	
+	public void aumentarMovimientos() {
+		String texto = labelMovimientos.getText();
+		int punt = Integer.valueOf(texto);
+		texto = Integer.toString(punt++);
+		labelMovimientos.setText(Integer.toString(punt++));
 	}
 
 	/**
