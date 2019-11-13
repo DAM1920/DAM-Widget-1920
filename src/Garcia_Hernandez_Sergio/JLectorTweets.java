@@ -10,6 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
+
 public class JLectorTweets extends JPanel{
 
 	private JTextField textFieldNombreUsuario;
@@ -50,6 +54,7 @@ public class JLectorTweets extends JPanel{
 		botonMostrarTweets = new JButton("Mostrar Tweets");
 		add(botonMostrarTweets, settings);
 		
+		
 		// Añadimos el panel donde se mostrarán los tweets
 		settings = new GridBagConstraints();
 		settings.gridx = 0;
@@ -59,4 +64,16 @@ public class JLectorTweets extends JPanel{
 		add(panelTweets, settings);
 	}
 	
+	public void inicializarListeners() {
+		botonMostrarTweets.addActionListener((e) -> {
+			ConfigurationBuilder cb = new ConfigurationBuilder();
+			cb.setDebugEnabled(true)
+			  .setOAuthConsumerKey("bnOzzlRNvqx7a2fTcJZX7pH07")
+			  .setOAuthConsumerSecret("qlj9bOXxXcYY8LbGvX4qKNTlKcTQQRCy9NtPlp7ejB6au3Y99A")
+			  .setOAuthAccessToken("378087758-EVDCoy1FIOqr0ca1VFvjGXj0s9uIA9A7Mql45MBo")
+			  .setOAuthAccessTokenSecret("FzePaRdHx7tZ1aTXAptiGwoJg4akyqd3ijPcm9u4hG9GI");
+			TwitterFactory tf = new TwitterFactory(cb.build());
+			Twitter twitter = tf.getInstance();
+		});
+	}
 }
