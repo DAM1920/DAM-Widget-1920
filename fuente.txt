@@ -1,0 +1,1 @@
+javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=plain,size=12]

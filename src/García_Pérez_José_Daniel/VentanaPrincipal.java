@@ -3,6 +3,7 @@ package García_Pérez_José_Daniel;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,10 +14,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.Arrays;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -24,21 +27,24 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
-import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
 public class VentanaPrincipal implements ActionListener, ItemListener {
 	JFrame ventana;
 	private JMenuBar mb;
 	private JMenu menu1;
-	private JMenuItem mi1, mi2;
+	private JMenuItem mi1, mi2, mi3;
 	private JPanel opciones, espacio;
 	private JTextPane editor;
-	private JCheckBox checkNegrita, checkItalica, checkSub;
+	private JCheckBox checkNegrita, checkItalica;
 	private JComboBox<String> tamanio;
 	private JComboBox<String> letra;
-	private JComboBox<String> colores;
+	private JButton colores;
+	SimpleAttributeSet attrs;
+	StyleContext st;
+	Color color;
+	Escrituras escritura;
 
 	public VentanaPrincipal() {
 		ventana = new JFrame("Bloc de notas");
@@ -59,7 +65,6 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		GridBagConstraints settings = new GridBagConstraints();
 		GridLayout gl = new GridLayout(1, 3);
 		String[] fontNames = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
-		System.out.println(Arrays.toString(fontNames));
 		ventana.setLayout(gbl);
 //menu	
 		mb = new JMenuBar();
@@ -72,6 +77,9 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		mi2 = new JMenuItem("Guardar");
 		mi2.addActionListener(this);
 		menu1.add(mi2);
+		mi3 = new JMenuItem("Abrir");
+		mi3.addActionListener(this);
+		menu1.add(mi3);
 
 		checkNegrita = new JCheckBox("Negrita");
 
@@ -80,9 +88,6 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		checkItalica = new JCheckBox("Italica");
 
 		checkItalica.addItemListener(this);
-		checkSub = new JCheckBox("Subrayado");
-
-		checkSub.addItemListener(this);
 
 		tamanio = new JComboBox<String>();
 
@@ -92,13 +97,11 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		letra = new JComboBox<String>();
 		letra.addActionListener(this);
 		letra.setModel(new DefaultComboBoxModel<>(fontNames));
+		letra.setSelectedItem(fontNames[0]);
 
-		colores = new JComboBox<String>();
+		colores = new JButton();
+		colores.setIcon(new ImageIcon(".//img//colores.png"));
 		colores.addActionListener(this);
-		colores.setModel(new DefaultComboBoxModel<>(
-				new String[] { "Negro", "Blanco", "Rojo", "Amarillo", "Verde", "Azul", "Morado", "Gris" }));
-		colores.setBackground(Color.DARK_GRAY);
-		colores.setForeground(Color.BLACK);
 		opciones = new JPanel();
 		opciones.setLayout(gbl);
 		settings = new GridBagConstraints();
@@ -115,31 +118,28 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		settings.gridx = 2;
 		settings.gridy = 0;
 
-		opciones.add(checkSub, settings);
-
-		settings = new GridBagConstraints();
-		settings.gridx = 3;
-		settings.gridy = 0;
 		settings.ipadx = 60;
 		settings.insets = new Insets(0, 5, 0, 0);
 		opciones.add(tamanio, settings);
 
 		settings = new GridBagConstraints();
-		settings.gridx = 4;
+		settings.gridx = 3;
 		settings.gridy = 0;
 		settings.insets = new Insets(0, 5, 0, 0);
 		opciones.add(letra, settings);
 
 		settings = new GridBagConstraints();
-		settings.gridx = 5;
+
+		settings.gridx = 4;
 		settings.gridy = 0;
 		settings.insets = new Insets(0, 5, 0, 0);
+
 		opciones.add(colores, settings);
 		espacio = new JPanel();
 		espacio.setBackground(Color.GRAY);
 
 		settings = new GridBagConstraints();
-		settings.gridx = 6;
+		settings.gridx = 5;
 		settings.gridy = 0;
 		settings.fill = GridBagConstraints.BOTH;
 		settings.weightx = 1;
@@ -161,81 +161,65 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		settings.weighty = 16;
 		ventana.add(editor, settings);
 
+		escritura = new Escrituras(this, ventana, editor);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		Container f = ventana.getContentPane();
-		if (arg0.getSource() == mi1) {
-			System.out.println("Nuevo");
+		if (arg0.getSource() == mi3) {
+
+			escritura.open();
 		}
 
 		if (arg0.getSource() == mi2) {
-			System.out.println("Guardar");
+
+			escritura.save();
+		}
+		if (arg0.getSource() == mi1) {
+			editor.setText("");
 		}
 		if (arg0.getSource() == tamanio) {
-			String item_Seleccionado = tamanio.getSelectedItem().toString();
-			System.out.println(item_Seleccionado);
+			editor.setFont(new Font(letra.getSelectedItem().toString(), Font.PLAIN,
+					Integer.parseInt(tamanio.getSelectedItem().toString())));
 		}
 		if (arg0.getSource() == letra) {
-			String item_Seleccionado = letra.getSelectedItem().toString();
-			System.out.println(item_Seleccionado);
+			editor.setFont(new Font(letra.getSelectedItem().toString(), Font.PLAIN,
+					Integer.parseInt(tamanio.getSelectedItem().toString())));
 		}
 		if (arg0.getSource() == colores) {
-			String item_Seleccionado = colores.getSelectedItem().toString();
-			System.out.println(item_Seleccionado);
-			switch (item_Seleccionado) {
-			case "Blanco":
-				colores.setForeground(Color.WHITE);
-				break;
-			case "Negro":
-				colores.setForeground(Color.BLACK);
-				break;
-			case "Rojo":
-				colores.setForeground(Color.RED);
-				break;
-			case "Verde":
-				colores.setForeground(Color.GREEN);
-				break;
-			case "Amarillo":
-				colores.setForeground(Color.YELLOW);
-				break;
-			case "Gris":
-				colores.setForeground(Color.GRAY);
-				break;
-			case "Azul":
-				colores.setForeground(Color.BLUE);
-				break;
-			case "Morado":
-				colores.setForeground(Color.MAGENTA);
-				break;
+			Color aux = color;
+			color = JColorChooser.showDialog(null, "Seleccione un color", this.color);
+			System.out.println(color);
+			if (color == null) {
+				color = aux;
 			}
-
+			editor.setForeground(color);
 		}
 
 	}
 
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
-		if (arg0.getStateChange() == ItemEvent.SELECTED) {
-			SimpleAttributeSet attrs = new SimpleAttributeSet();
-			StyleConstants.setBold(attrs, true);
-			try {
-				editor.getStyledDocument().insertString(editor.getStyledDocument().getLength(), null, attrs);
-			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if (checkItalica.isSelected() && checkNegrita.isSelected()) {
+			editor.setFont(new Font(letra.getSelectedItem().toString(), Font.ITALIC | Font.BOLD,
+					Integer.parseInt(tamanio.getSelectedItem().toString())));
+
 		} else {
-			SimpleAttributeSet attrs = new SimpleAttributeSet();
-			StyleConstants.setBold(attrs, false);
-			try {
-				editor.getStyledDocument().insertString(editor.getStyledDocument().getLength(), null, attrs);
-			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (checkItalica.isSelected()) {
+				editor.setFont(new Font(letra.getSelectedItem().toString(), Font.ITALIC,
+						Integer.parseInt(tamanio.getSelectedItem().toString())));
+			} else {
+				if (checkNegrita.isSelected()) {
+					editor.setFont(new Font(letra.getSelectedItem().toString(), Font.BOLD,
+							Integer.parseInt(tamanio.getSelectedItem().toString())));
+				} else {
+					editor.setFont(new Font(letra.getSelectedItem().toString(), Font.PLAIN,
+							Integer.parseInt(tamanio.getSelectedItem().toString())));
+				}
 			}
 		}
 
 	}
+
 }
