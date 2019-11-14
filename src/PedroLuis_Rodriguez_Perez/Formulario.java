@@ -70,7 +70,9 @@ public class Formulario extends JPanel {
 		inicializarComponentes();
 	}
 	
-
+	/**
+	 * Inicializa todos los comonentes con sus configuraciones
+	 */
 	private void inicializarComponentes() {
 		GridBagConstraints settings = new GridBagConstraints();
 
@@ -159,7 +161,10 @@ public class Formulario extends JPanel {
 
 		});
 	}
-
+	/**
+	 * Escribe un registro en el fichero
+	 * @param cadena Cadena ya formada para el CSV
+	 */
 	private void escribirEnfichero(String cadena) {
 
 		try {
@@ -173,12 +178,19 @@ public class Formulario extends JPanel {
 		}
 
 	}
+	/**
+	 * Añade las columnas segun los atributos de la cabecera del fichero 
+	 */
 	private void aniadirColumas() {
 		for (int i = 0; i < atributos.size(); i++) {
 			model.addColumn(atributos.get(i));
 		}		
 		
 	}
+	
+	/**
+	 * Añade los registro que existen en el fichero en filas de la Tabla
+	 */
 	private void aniadirValores() {
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -200,7 +212,9 @@ public class Formulario extends JPanel {
 		}
 
 	}
-
+	/**
+	 * Pasa los atributos de la cabecera a un ArrayList de String
+	 */
 	private void volcarAtributos() {
 		FileReader fr = null;
 		BufferedReader br = null;
@@ -222,7 +236,9 @@ public class Formulario extends JPanel {
 		}
 
 	}
-
+	/**
+	 * Refresca la pantalla
+	 */
 	private void refrescarPantalla() {
 		this.revalidate();
 		this.repaint();
