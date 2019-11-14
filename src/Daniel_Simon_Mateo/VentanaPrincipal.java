@@ -64,7 +64,7 @@ public class VentanaPrincipal {
 		panelMovimientos.setBackground(Color.white);
 		marco.add(panelMovimientos,settings);
 		
-		//Se inicializa la etiqueta con la puntuación
+		//Se inicializa la etiqueta con la puntuaciï¿½n
 		settings = new GridBagConstraints();
 		labelMovimientos = new JLabel();
 		labelMovimientos.setText("0");
@@ -99,7 +99,7 @@ public class VentanaPrincipal {
 		casillas = new JLabel[3][3];
 		for (int i = 0; i < casillas.length; i++) {
 			for (int j = 0; j < casillas[i].length; j++) {
-				casillas[i][j] = new JLabel();
+				casillas[i][j] = new MiBotonPuzle(this, j, i);
 				casillas[i][j].setBorder(BorderFactory.createLineBorder(Color.darkGray));
 			}
 		}
@@ -115,7 +115,7 @@ public class VentanaPrincipal {
 			}
 		}
 		
-		//Se añaden las casillas al panel de juego
+		//Se aï¿½aden las casillas al panel de juego
 		for (int i = 0; i < casillas.length; i++) {
 			for (int j = 0; j < casillas[i].length; j++) {
 				settings = new GridBagConstraints();
@@ -124,21 +124,17 @@ public class VentanaPrincipal {
 				panelJuego.add(casillas[i][j],settings);
 			}
 		}
-		
-		iniciarListeners();
 
 	}
 	
-	public void iniciarListeners() {
-		for (int i = 0; i < casillas.length; i++) {
-			for (int j = 0; j < casillas[i].length; j++) {
-				casillas[i][j].addMouseListener(new MiBotonPuzle(this, j, i));
-			}
-		}
+	public void convertirBlanco(int columnasX,int filasY) {
+		//casillas[filasY][columnasX].setIcon(new ImageIcon(panelBlanco));
 	}
 	
+	
+	
 	/**
-	 * Comprueba las posiciones norte, sur, este y oeste en busca de la casilla blanca
+	 * Comprueba las posiciones norte, sur, este y oeste en busca de la casilla blanca (W.jpg)
 	 */
 	public void comprobarCasillasAdyacentes(int posX,int posY) {
 		//[posX][posY-1] ARRIBA
@@ -190,7 +186,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Lee la carpeta de imágenes y retorna una lista con todas las imágenes que encuentra
+	 * Lee la carpeta de imï¿½genes y retorna una lista con todas las imï¿½genes que encuentra
 	 * @return
 	 */
 	public ArrayList<Image> devolverListaImagenes() {
@@ -223,6 +219,7 @@ public class VentanaPrincipal {
 		
 		return imagenes;
 	}
+	
 
 	public void inicializar() {
 		marco.setVisible(true);
