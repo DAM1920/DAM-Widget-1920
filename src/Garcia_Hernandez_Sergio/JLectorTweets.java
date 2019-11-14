@@ -1,6 +1,7 @@
 package Garcia_Hernandez_Sergio;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -31,18 +32,35 @@ public class JLectorTweets extends JPanel {
 		setBorder(BorderFactory.createLineBorder(new Color(25, 25, 25), 3, false));
 
 		// Inicializamos el JLabel y cambiamos el estilo de letra
-		setLayout(new GridLayout(8, 1));
+		setLayout(new GridBagLayout());
+		
+		GridBagConstraints settings;
 
 		// Metemos el JLabel
-		add(new JLabel("Nombre del usuario (sin @)"));
+		settings = new GridBagConstraints();
+		settings.gridx = 0;
+		settings.gridy = 0;
+		JLabel label = new JLabel("Nombre del usuario:  @");
+		label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+		add(label, settings);
 
 		// Metemos el textFieldNombreUsuario
+		settings = new GridBagConstraints();
+		settings.gridx = 1;
+		settings.gridy = 0;
+		settings.ipadx = 200;
+		settings.fill = GridBagConstraints.HORIZONTAL;
 		textFieldNombreUsuario = new JTextField();
-		add(textFieldNombreUsuario);
+		add(textFieldNombreUsuario, settings);
 
 		// Añadimos el botón
+		settings = new GridBagConstraints();
+		settings.gridx = 0;
+		settings.gridy = 1;
+		settings.gridwidth = 2;
+		settings.fill = GridBagConstraints.NONE;
 		botonMostrarTweets = new JButton("Mostrar Tweets");
-		add(botonMostrarTweets);
+		add(botonMostrarTweets, settings);
 		
 		panelTweets = new JTextArea[5];
 		
@@ -52,7 +70,14 @@ public class JLectorTweets extends JPanel {
 			panelTweets[i].setLineWrap(true);
 			panelTweets[i].setBackground(new Color(204, 246, 255));
 			panelTweets[i].setBorder(BorderFactory.createLineBorder(new Color(0, 255, 255)));
-			add(panelTweets[i]);
+
+			settings = new GridBagConstraints();
+			settings.gridx = 0;
+			settings.gridy = (i+2);
+			settings.gridwidth = 2;	
+			settings.ipady = 50;
+			settings.fill = GridBagConstraints.HORIZONTAL;
+			add(panelTweets[i], settings);
 		}
 
 		
