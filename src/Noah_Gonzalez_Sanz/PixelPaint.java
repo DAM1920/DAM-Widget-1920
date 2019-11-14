@@ -30,7 +30,11 @@ public class PixelPaint extends JPanel {
 	JButton botonRojo;
 	JButton botonAmarillo;
 	JButton botonNuevoColor;
+	JButton reset;
 	JLabel texto;
+	JLabel opc;
+	Color colorPaint = Color.BLACK;
+	
 
 	/**
 	 * Inicializamos los paneles
@@ -81,13 +85,13 @@ public class PixelPaint extends JPanel {
 	 */
 	public void añadirBotones() {
 		GridBagConstraints setting = new GridBagConstraints();
-		// Label
 		Font font = new Font("Agency FB", Font.BOLD, 20);
+		// Label
 		texto = new JLabel("Seleccion de Colores");
 		texto.setFont(font);
 		texto.setForeground(Color.DARK_GRAY);
 		setting.gridx = 0;
-		setting.gridy = 0;
+		setting.gridy = 2;
 		panelSelectorColor.add(texto, setting);
 
 		// **Botones
@@ -97,7 +101,7 @@ public class PixelPaint extends JPanel {
 		botonNegro.setBackground(Color.BLACK);
 		setting = new GridBagConstraints();
 		setting.gridx = 0;
-		setting.gridy = 2;
+		setting.gridy = 4;
 		setting.ipady = 25;
 		setting.ipadx = 25;
 		setting.insets = new Insets(20, 20, 20, 20);
@@ -108,7 +112,7 @@ public class PixelPaint extends JPanel {
 		botonAzul.setBackground(Color.BLUE);
 		setting = new GridBagConstraints();
 		setting.gridx = 0;
-		setting.gridy = 3;
+		setting.gridy = 5;
 		setting.ipady = 25;
 		setting.ipadx = 25;
 		panelSelectorColor.add(botonAzul, setting);
@@ -118,7 +122,7 @@ public class PixelPaint extends JPanel {
 		botonVerde.setBackground(Color.GREEN);
 		setting = new GridBagConstraints();
 		setting.gridx = 0;
-		setting.gridy = 4;
+		setting.gridy = 6;
 		setting.ipady = 25;
 		setting.ipadx = 25;
 		setting.insets = new Insets(20, 20, 20, 20);
@@ -129,7 +133,7 @@ public class PixelPaint extends JPanel {
 		botonRojo.setBackground(Color.RED);
 		setting = new GridBagConstraints();
 		setting.gridx = 0;
-		setting.gridy = 5;
+		setting.gridy = 7;
 		setting.ipady = 25;
 		setting.ipadx = 25;
 		panelSelectorColor.add(botonRojo, setting);
@@ -139,45 +143,114 @@ public class PixelPaint extends JPanel {
 		botonAmarillo.setBackground(Color.YELLOW);
 		setting = new GridBagConstraints();
 		setting.gridx = 0;
-		setting.gridy = 6;
+		setting.gridy = 8;
 		setting.ipady = 25;
 		setting.ipadx = 25;
 		setting.insets = new Insets(20, 20, 20, 20);
 		panelSelectorColor.add(botonAmarillo, setting);
 
 		// BotonNuevoColor
-		botonNuevoColor = new JButton("Elije un Color");
+		botonNuevoColor = new JButton("Elije otro Color");
 		setting = new GridBagConstraints();
 		setting.gridx = 0;
-		setting.gridy = 7;
+		setting.gridy = 9;
 		panelSelectorColor.add(botonNuevoColor, setting);
-
+		
+		// **Opciones
+		
+		// Label
+		opc = new JLabel("Opciones");
+		setting = new GridBagConstraints();
+		setting.gridx = 0;
+		setting.gridy = 0;
+		opc.setFont(font);
+		panelSelectorColor.add(opc,setting);
+		// Resetear Lienzo
+		reset = new JButton("Reset");
+		setting = new GridBagConstraints();
+		setting.gridx = 0;
+		setting.gridy = 1;
+		setting.insets = new Insets(30, 30, 30, 30);
+		reset.setFont(font);
+		panelSelectorColor.add(reset,setting);
+		
 		// Añadir PanelSelectorColor
 		setting = new GridBagConstraints();
 		setting.weightx = 1;
 		setting.weighty = 1;
 		setting.fill = GridBagConstraints.BOTH;
 		this.add(panelSelectorColor, setting);
-
 	}
 
 	public void inicializarListener() {
-		
+
 		for (int i = 0; i < lienzo.length; i++) {
 			for (int j = 0; j < lienzo[i].length; j++) {
-				lienzo[i][j].addMouseListener(
-						new MiMouse(lienzo[i][j],botonNegro,botonAzul,botonVerde,botonRojo,botonAmarillo));
+				lienzo[i][j].addMouseListener(new MiMouse(this, i, j));
 			}
 		}
-		
+
 		botonNuevoColor.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Color c = JColorChooser.showDialog(null, "Selecciona un color", colorPaint);
+				if (c != null) {
+					colorPaint = c;
+				}
+			}
+		});
+
+		botonAmarillo.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				colorPaint = Color.YELLOW;
+			}
+		});
+
+		botonNegro.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				colorPaint = Color.BLACK;
+
+			}
+		});
+		
+		botonVerde.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Color color = Color.BLACK;
-				Color c = JColorChooser.showDialog(null,"Selecciona un color", color);
-				if(c!=null) {
-					color = c;
+				colorPaint = Color.GREEN;
+			}
+		});
+		
+		botonRojo.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				colorPaint = Color.RED;
+			}
+		});
+		
+		botonAzul.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				colorPaint = Color.BLUE;
+			}
+		});
+		
+		reset.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+				for (int i = 0; i < lienzo.length; i++) {
+					for (int j = 0; j < lienzo[i].length; j++) {
+						lienzo[i][j].setBackground(Color.WHITE);
+					}
 				}
 			}
 		});
