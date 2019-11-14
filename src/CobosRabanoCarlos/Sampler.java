@@ -86,16 +86,14 @@ public class Sampler {
 		settings.gridy=0;
 		settings.weightx=1;
 		settings.weighty=1;
-		settings.ipadx=60;
-		settings.ipady=5;
+		settings.insets=new Insets(10, 10, 10, 10);
 		settings.fill=GridBagConstraints.BOTH;
-		titulo=new JLabel("SAMPLER");
+		titulo=new JLabel("JSWING SAMPLER");
 		titulo.setOpaque(true);
 		titulo.setBackground(Color.BLACK);
 		titulo.setForeground(new Color(137, 143, 156));
 		titulo.setFont(new Font("Tahoma", Font.BOLD, 42));
 		titulo.setHorizontalAlignment(JLabel.CENTER);
-		titulo.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		ventana.add(titulo, settings);
 		
 		//Añadimos un panel con los 16 botones
@@ -104,11 +102,12 @@ public class Sampler {
 		settings.gridy=1;
 		settings.weightx=1;
 		settings.weighty=4;
+		settings.ipadx=30;
+		settings.ipady=30;
 		settings.fill=GridBagConstraints.BOTH;
 		panelBotones=new JPanel();
-		panelBotones.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		ventana.add(panelBotones, settings);
-		panelBotones.setLayout(new GridBagLayout());
+		panelBotones.setLayout(new GridLayout(4,4,5,5));
 		botones=new BotonSampler[4][4];
 		for (int i = 0; i < botones.length; i++) {
 			for (int j = 0; j < botones[i].length; j++) {
@@ -116,18 +115,18 @@ public class Sampler {
 				botones[i][j].setFocusPainted(false);
 				botones[i][j].setBackground(new Color(59, 89, 182));
 				botones[i][j].setFont(new Font("Tahoma", Font.BOLD, 12));
-				botones[i][j].setForeground(Color.WHITE);
-				botones[i][j].setFichero(new File("./sonidos/ringtones-super-mario-bros.mp3"));
+				botones[i][j].setForeground(Color.WHITE);				
+				/*botones[i][j].setFichero(new File("./sonidos/ringtones-super-mario-bros.mp3"));
 				botones[i][j].setSonido(new ReproduccionSonido(botones[i][j].getFichero(), botones[i][j]));
-				botones[i][j].setDescripcion("mario");
-				settings=new GridBagConstraints();
+				botones[i][j].setDescripcion("mario");*/
+				/*settings=new GridBagConstraints();
 				settings.gridx=i;
 				settings.gridy=j;
 				settings.insets=new Insets(20, 20, 20, 20);
 				settings.fill=GridBagConstraints.BOTH;
 				settings.weightx=1;
-				settings.weighty=1;
-				panelBotones.add(botones[i][j], settings);
+				settings.weighty=1;*/
+				panelBotones.add(botones[i][j]);				
 			}
 		}
 		

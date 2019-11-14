@@ -91,9 +91,10 @@ public class BotonSampler extends JButton implements MouseListener, Serializable
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {		
 		if (SwingUtilities.isRightMouseButton(e)) {
 			ejegirFichero();
+			parar();
 		}else {
 			if (sonido.isPausado()){
 				sonar();
