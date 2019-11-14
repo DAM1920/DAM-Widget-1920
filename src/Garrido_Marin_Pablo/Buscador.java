@@ -13,7 +13,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -47,7 +46,7 @@ public class Buscador extends JPanel {
 	// Fuente del widget
 	Font fuente = new Font("Arial", Font.BOLD, 16);
 	// URL inicial del buscador
-	String url = "https://www.google.com/search?q="; 
+	String url = "https://www.google.com/search?q=";
 
 	/**
 	 * Constructor Establezco el tamaño, el layaout, el color de fondo e inicializo
@@ -158,33 +157,17 @@ public class Buscador extends JPanel {
 	 * Metodo para implementar los listener del boton y del ComboBox
 	 */
 	public void addActionListenners() {
-		// Listener del texto para poner el foco en el boton
-		texto.addActionListener(e -> {
-			boton.requestFocusInWindow();
-		});
-		// Listener del ComboBox
-		opciones.addActionListener(e -> {
-			texto.setText(opciones.getSelectedItem().toString());
-			goToURL(url + texto.getText().replaceAll("\\s", "+"));
-
-		});
-		// Listener para cuando pulso el boton
-		boton.addActionListener(e -> {
-			crearFichero(texto.getText());
-			goToURL(url + texto.getText().replaceAll("\\s", "+"));
-
-		});
-		// Listener para que funcione el boton pulsando la tecla ENTER
-		boton.addKeyListener(new KeyListener() {
+		// Listener del texto para al pulsar ENTER ir a la busqueda
+		texto.addKeyListener(new KeyListener() {
 
 			@Override
-			public void keyTyped(KeyEvent e) {
+			public void keyTyped(KeyEvent arg0) {
 				// TODO Auto-generated method stub
 
 			}
 
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void keyReleased(KeyEvent arg0) {
 				// TODO Auto-generated method stub
 
 			}
@@ -193,30 +176,35 @@ public class Buscador extends JPanel {
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					crearFichero(texto.getText());
-					goToURL(url + texto.getText().replaceAll("\\s", "+"));
+					irURL(url + texto.getText().replaceAll("\\s", "+"));
+					texto.setText("");
 				}
 
 			}
 		});
+		// Listener del ComboBox
+		opciones.addActionListener(e -> {
+			texto.setText(opciones.getSelectedItem().toString());
+			irURL(url + texto.getText().replaceAll("\\s", "+"));
+			texto.setText("");
+		});
+		// Listener para cuando pulso el boton
+		boton.addActionListener(e -> {
+			crearFichero(texto.getText());
+			irURL(url + texto.getText().replaceAll("\\s", "+"));
+			texto.setText("");
+		});
 	}
 
 	/**
-	 * Metodo para ir a la URL de la busqueda
+	 * Metodo para ir a la URL de la busqueda en una nueva ventana
 	 * 
 	 * @param URL url del buscador de google mas lo que quiero buscar
 	 */
-	public void goToURL(String URL) {
-		if (java.awt.Desktop.isDesktopSupported()) {
-			java.awt.Desktop desktop = java.awt.Desktop.getDesktop();
-
-			if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
-				try {
-					java.net.URI uri = new java.net.URI(URL);
-					desktop.browse(uri);
-				} catch (URISyntaxException | IOException ex) {
-
-				}
-			}
-		}
+	public void irURL(String url) {
+		JFrameWindow window = new JFrameWindow(url);
+		window.setLocationRelativeTo(null);
+		window.setVisible(true);
 	}
+
 }
