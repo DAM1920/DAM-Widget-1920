@@ -1,5 +1,7 @@
 package Vega_Calzado_Alba;
 
-public class Galeria {
+import java.util.ArrayList;
 
+public class Galeria {
+	
 }

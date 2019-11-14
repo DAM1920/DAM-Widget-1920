@@ -1,5 +1,6 @@
 package Vega_Calzado_Alba;
 
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
@@ -29,11 +30,21 @@ public class VentanaPrincipal {
 		
 		//Inicialización de la Galería
 		galeria = new Galeria();
+		GridBagConstraints settings = new GridBagConstraints();
+		settings.gridx=0;
+		settings.gridy=0;
+		settings.gridwidth=4;
+		settings.weightx=1;
+		settings.weighty=1;
+		settings.fill=GridBagConstraints.BOTH;
+		
+		
 		
 		//Inicialización del JTextField
 		buscadorRuta = new JTextField();
 		
-		
+		//Inicializamos boton de busqueda de ka ruta
+		botonBuscar = new JButton("Buscar");
 		
 	}
 	
