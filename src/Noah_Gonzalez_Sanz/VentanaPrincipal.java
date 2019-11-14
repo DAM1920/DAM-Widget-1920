@@ -17,7 +17,9 @@ public class VentanaPrincipal {
 		marco.add(paint);
 		marco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
+	/**
+	 * Hacemos visible el JFrame
+	 */
 	public void visible() {
 		marco.setVisible(true);
 	}

@@ -1,7 +1,7 @@
 package Noah_Gonzalez_Sanz;
 
 import java.awt.Color;
-
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -23,7 +23,7 @@ import javax.swing.SwingUtilities;
 
 public class PixelPaint extends JPanel {
 	JPanel panelSelectorColor;
-	JPanel[][] lienzo;
+	JPanel [][] lienzo;
 	JPanel panelPixel;
 	JButton botonNegro;
 	JButton botonAzul;
@@ -32,6 +32,7 @@ public class PixelPaint extends JPanel {
 	JButton botonAmarillo;
 	JButton botonNuevoColor;
 	JButton reset;
+	JButton rellenar;
 	JLabel texto;
 	JLabel opc;
 	Color colorPaint = Color.BLACK;
@@ -41,7 +42,9 @@ public class PixelPaint extends JPanel {
 	 * Inicializamos los paneles
 	 */
 	public void añadirElementos() {
+		
 		this.setLayout(new GridBagLayout());
+		
 		// Panel SeleccionColor
 		panelSelectorColor = new JPanel();
 		panelSelectorColor.setLayout(new GridBagLayout());
@@ -87,6 +90,7 @@ public class PixelPaint extends JPanel {
 	public void añadirBotones() {
 		GridBagConstraints setting = new GridBagConstraints();
 		Font font = new Font("Agency FB", Font.BOLD, 20);
+		
 		// Label
 		texto = new JLabel("Seleccion de Colores");
 		texto.setFont(font);
@@ -173,8 +177,17 @@ public class PixelPaint extends JPanel {
 		setting.gridx = 0;
 		setting.gridy = 1;
 		setting.insets = new Insets(30, 30, 30, 30);
+		setting.anchor = GridBagConstraints.WEST;
 		reset.setFont(font);
 		panelSelectorColor.add(reset,setting);
+		
+		// Rellenar Lienzos
+		rellenar = new JButton("Rellenar");
+		setting = new GridBagConstraints();
+		setting.gridx = 1;
+		setting.gridy = 1;
+		rellenar.setFont(font);
+		panelSelectorColor.add(rellenar,setting);
 		
 		// Añadir PanelSelectorColor
 		setting = new GridBagConstraints();
@@ -183,7 +196,9 @@ public class PixelPaint extends JPanel {
 		setting.fill = GridBagConstraints.BOTH;
 		this.add((new JScrollPane(panelSelectorColor)), setting);
 	}
-
+	/**
+	 * Inicializamos los listeners de los botones.
+	 */
 	public void inicializarListener() {
 
 		for (int i = 0; i < lienzo.length; i++) {
@@ -207,7 +222,7 @@ public class PixelPaint extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				colorPaint = Color.YELLOW;
+				colorPaint = ((Component) e.getSource()).getBackground();
 			}
 		});
 
@@ -215,7 +230,7 @@ public class PixelPaint extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				colorPaint = Color.BLACK;
+				colorPaint = ((Component) e.getSource()).getBackground();
 
 			}
 		});
@@ -224,7 +239,7 @@ public class PixelPaint extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				colorPaint = Color.GREEN;
+				colorPaint = ((Component) e.getSource()).getBackground();
 			}
 		});
 		
@@ -232,7 +247,7 @@ public class PixelPaint extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				colorPaint = Color.RED;
+				colorPaint = ((Component) e.getSource()).getBackground();
 			}
 		});
 		
@@ -240,7 +255,7 @@ public class PixelPaint extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				colorPaint = Color.BLUE;
+				colorPaint = ((Component) e.getSource()).getBackground();
 			}
 		});
 		
@@ -252,6 +267,20 @@ public class PixelPaint extends JPanel {
 				for (int i = 0; i < lienzo.length; i++) {
 					for (int j = 0; j < lienzo[i].length; j++) {
 						lienzo[i][j].setBackground(Color.WHITE);
+						lienzo[i][j].setBorder(BorderFactory.createLineBorder(Color.BLACK));
+					}
+				}
+			}
+		});
+		
+		rellenar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for (int i = 0; i < lienzo.length; i++) {
+					for (int j = 0; j < lienzo[i].length; j++) {
+						lienzo[i][j].setBackground(colorPaint);
+						lienzo[i][j].setBorder(BorderFactory.createLineBorder(colorPaint));
 					}
 				}
 			}
