@@ -1,8 +1,6 @@
 package Daniel_Simon_Mateo;
 
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.BufferedInputStream;
@@ -18,18 +16,19 @@ import javax.swing.*;
 
 public class MiBotonPuzle extends JLabel implements MouseListener {
 	private VentanaPrincipal ventana;
-	private int posX;
-	private int posY;
+	private int filaY;
+	private int columnaX;
 	
-	public MiBotonPuzle(VentanaPrincipal ventana,int columna,int fila) {
+	public MiBotonPuzle(VentanaPrincipal ventana,int columnaX,int filaY) {
+		super();
+		this.addMouseListener(this);
 		this.ventana = ventana;
-		posX = fila;
-		posY = columna;
+		this.filaY = filaY;
+		this.columnaX = columnaX;
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
+	public void mouseClicked(MouseEvent arg0) {
 		
 	}
 
@@ -43,15 +42,18 @@ public class MiBotonPuzle extends JLabel implements MouseListener {
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
+		it = imagenesOriginales.iterator();
+		
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		ventana.comprobarCasillasAdyacentes(posX, posY);
+	public void mousePressed(MouseEvent arg0) {
+		ventana.buscarBlanca(columnaX, filaY);
+		//ventana.buscarBlanca();
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
