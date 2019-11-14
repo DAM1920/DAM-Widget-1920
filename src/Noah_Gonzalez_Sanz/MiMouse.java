@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JPanel;
@@ -30,6 +31,7 @@ public class MiMouse implements MouseListener{
 	public void mouseEntered(MouseEvent e) {
 		if(SwingUtilities.isLeftMouseButton(e)) {
 			panel.lienzo[i][j].setBackground(panel.colorPaint);
+			panel.lienzo[i][j].setBorder(BorderFactory.createLineBorder(panel.colorPaint));
 		}
 		if(SwingUtilities.isRightMouseButton(e)) {
 			panel.lienzo[i][j].setBackground(Color.WHITE);

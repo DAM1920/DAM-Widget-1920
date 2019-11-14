@@ -18,6 +18,7 @@ import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 public class PixelPaint extends JPanel {
@@ -73,8 +74,8 @@ public class PixelPaint extends JPanel {
 			}
 		}
 		setting = new GridBagConstraints();
-		setting.weightx = 5;
-		setting.weighty = 5;
+		setting.weightx = 1;
+		setting.weighty = 1;
 		setting.fill = GridBagConstraints.BOTH;
 		this.add(panelPixel, setting);
 
@@ -165,6 +166,7 @@ public class PixelPaint extends JPanel {
 		setting.gridy = 0;
 		opc.setFont(font);
 		panelSelectorColor.add(opc,setting);
+		
 		// Resetear Lienzo
 		reset = new JButton("Reset");
 		setting = new GridBagConstraints();
@@ -179,7 +181,7 @@ public class PixelPaint extends JPanel {
 		setting.weightx = 1;
 		setting.weighty = 1;
 		setting.fill = GridBagConstraints.BOTH;
-		this.add(panelSelectorColor, setting);
+		this.add((new JScrollPane(panelSelectorColor)), setting);
 	}
 
 	public void inicializarListener() {
