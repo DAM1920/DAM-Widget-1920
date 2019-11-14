@@ -12,16 +12,20 @@ public class VentanaPrincipal implements KeyListener{
 	private JFrame marco;
 	private PanelNotas panel;
 	
+	//Constructor
 	public VentanaPrincipal() {
 		marco = new JFrame("Panel Notas");
-		marco.setBounds(100, 100, 400, 500);
+		marco.setBounds(100, 100, 0, 0);
 		marco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		marco.addKeyListener(this);
 	}
+	//Muestra la ventana.
 	public void inicializar() {
 		marco.setVisible(true);
-		
 	}
 	
+	
+	//Establece el Listener para que se habra el panel al pulsar el control.
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();

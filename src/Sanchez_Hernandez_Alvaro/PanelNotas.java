@@ -19,7 +19,7 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
 
-public class PanelNotas extends JDialog{
+public class PanelNotas extends JDialog {
 
 	private static final long serialVersionUID = 5266212298815899686L;
 	private GridBagLayout layout;
@@ -30,6 +30,7 @@ public class PanelNotas extends JDialog{
 	private GridBagConstraints settings;
 	
 	
+	//Constructor
 	public PanelNotas() {
 		super();
 		this.setBounds(0, 0, 500, 600);
@@ -38,6 +39,11 @@ public class PanelNotas extends JDialog{
 		inicializarListeners();
 	}
 	
+	/**
+	 * Inicializa Layout(GridBagLayout).
+	 * Inicializa el cuadro de texto con sus Constraints.
+	 * Inicializa los botones con sus Constraints.
+	 */
 	public void inicializarComponentes() {
 		
 		//Inicializamos el layout
@@ -90,17 +96,45 @@ public class PanelNotas extends JDialog{
 		cerrar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.add(cerrar, settings);
 	}
-	//Cierra el panel
+	
+	
+	/**
+	 * Si el usuario quiere guardar el fichero llamara a guardarFichero().
+	 * Esté método siempre cierra el JDialog.
+	 * En caso de que el usuario no haya escrito nada,no se preguntará si quiere guardar el fichero.
+	 */
 	public void cerrarVentana() {
+		if(!texto.getText().isEmpty()) {
+			int guardar = eleccion();
+			if(guardar!=1) {
+			guardarFichero();
+			}
+		}
 		this.dispose();
 	}
+	
+	/**
+	 * Pregunta al usuario si desea guardar el texto en el fichero antes de borrarlo o cerrar el panel.
+	 * @return: devuelve la elección del usuario. 0 si quiere guardar el fichero,1 si no quiere.
+	 */
+	public int eleccion() {
+		return JOptionPane.showConfirmDialog(this, "¿Desea guardar la información del fichero antes de borrar?", "Guardar  fichero", 0);
+	}
+	
+	/**
+	 * Si el usuario pulsa que si en el metodo eleccion() guarda el fichero y quita el texto al TextArea.
+	 * En caso de que el usuario no quiera guardar los datos simplemente cambia el fichero de texto.
+	 * Comprueba que el campo de texto esta vacio para no preguntar.
+	 */
 	public void limpiarVentana() {
-		int guarda = JOptionPane.showConfirmDialog(this, "¿Desea guardar la información del fichero antes de borrar?", "Guardar  fichero", 0);
-		if(guarda!=1) {
-			guardarFichero();
-			texto.setText("");
-		}else {
-			texto.setText("");
+		if(!texto.getText().isEmpty()) {
+			int guarda = eleccion();
+			if(guarda!=1) {
+				guardarFichero();
+				texto.setText("");
+			}else {
+				texto.setText("");
+			}
 		}
 	}
 	/**
@@ -112,6 +146,10 @@ public class PanelNotas extends JDialog{
 		String text = texto.getText();
 		pw.write(text);
 	}
+	/**
+	 * Este método pide el nombre del archivo y creara un directorio en la ruta de nuestro programa.
+	 * Declara los writer para escribir en el fichero.
+	 */
 	public void guardarFichero() {
 		//Pedimos nombre del fichero.
 		String nombre  = JOptionPane.showInputDialog("Introduce el nombre del fichero")+".txt";
@@ -127,7 +165,7 @@ public class PanelNotas extends JDialog{
 			FileWriter fw = new FileWriter(archivo);
 			PrintWriter pw = new PrintWriter(fw);
 			
-			escribirFichero(pw);
+			escribirFichero(pw);//Escribimos en el fichero
 			pw.close(); //Cerramos flujo.
 		}catch(IOException ioe) {
 			System.out.println(ioe.getMessage());
@@ -135,8 +173,12 @@ public class PanelNotas extends JDialog{
 		}
 		
 	}
-	//Inicializa los listeners  para el boton guardar y cerrar.
+	/**
+	 * Inicializa los listeners para cada uno de los botones.
+	 */
 	public void inicializarListeners() {
+		
+		//Listener de boton cerrar.
 		cerrar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -144,6 +186,8 @@ public class PanelNotas extends JDialog{
 				cerrarVentana();
 			}
 		});
+		
+		//Listener de boton Limpiar.
 		limpiar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -151,8 +195,9 @@ public class PanelNotas extends JDialog{
 				limpiarVentana();
 			}
 		});
+		
+		//Listener de Boton Guardar.
 		guardar.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				guardarFichero();	
