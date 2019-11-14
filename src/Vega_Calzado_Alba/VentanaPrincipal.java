@@ -13,18 +13,27 @@ public class VentanaPrincipal {
 	JButton botonBuscar, botonPlay, botonPause, botonAvanzar, botonRetroceder;
 	Galeria galeria;
 	
+	/**
+	 * Constructor de la ventana
+	 */
 	public VentanaPrincipal() {
 		ventana=new JFrame();
 		ventana.setBounds(100, 100, 350, 250);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	/**
+	 * Método para inicializar la ventana y sus componentes.
+	 */
 	public void inicializar() {
 		ventana.setVisible(true);
 		inicializarComponentes();
 		inicializarListeners();
 	}
 	
+	/**
+	 * Método para inicializar los componentes
+	 */
 	public void inicializarComponentes() {
 		ventana.setLayout(new GridBagLayout());
 		
@@ -38,6 +47,7 @@ public class VentanaPrincipal {
 		settings.weighty=1;
 		settings.fill=GridBagConstraints.BOTH;
 		
+		ventana.add(galeria, settings);
 		
 		
 		//Inicialización del JTextField
