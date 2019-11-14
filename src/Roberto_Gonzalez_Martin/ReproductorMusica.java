@@ -5,7 +5,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -13,6 +19,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 
 public class ReproductorMusica extends JDialog{
 	private static final long serialVersionUID = 1L;
@@ -28,6 +37,8 @@ public class ReproductorMusica extends JDialog{
 	JSlider volumen;
 	JSlider avanceCancion;
 	File cancion;
+	AudioInputStream ais;
+	Clip clip;
 	
 	public ReproductorMusica() {
 		super();
@@ -132,6 +143,57 @@ public class ReproductorMusica extends JDialog{
 				fileChooser.showOpenDialog(fileChooser);
 				cancion = fileChooser.getSelectedFile();
 				nombreCancion.setText(cancion.getName());
+				try {
+					ais = AudioSystem.getAudioInputStream(cancion.getAbsoluteFile());
+					clip = AudioSystem.getClip();
+					clip.open(ais);
+				} catch (UnsupportedAudioFileException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (LineUnavailableException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		reproduccion.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				float duracion = clip.getMicrosecondLength();
+				float avance = clip.getMicrosecondPosition();
+				float posicion = (100*avance)/duracion;
+				if(clip.isRunning()) {
+					clip.stop();
+				} else {
+					clip.start();
+				}
+				while(clip.isRunning()) {
+					avanceCancion.setValue((int)posicion);
+				}
+			}
+		});
+		detener.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				clip.stop();
+			}
+		});
+		retroceder.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		avanzar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		volumen.addChangeListener(new ChangeListener() {
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				
 			}
 		});
 	}
