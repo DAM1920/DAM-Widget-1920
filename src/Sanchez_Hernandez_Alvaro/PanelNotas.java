@@ -5,8 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -18,25 +16,24 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
 
 
-public class PanelNotas extends JDialog implements KeyListener{
+public class PanelNotas extends JDialog{
 
 	private static final long serialVersionUID = 5266212298815899686L;
 	private GridBagLayout layout;
 	private JButton guardar;
 	private JButton cerrar;
+	private JButton limpiar;
 	private JTextArea texto;
 	private GridBagConstraints settings;
-	private JDialog miDialog = this;
 	
 	
 	public PanelNotas() {
 		super();
 		this.setBounds(0, 0, 500, 600);
-		this.setVisible(true);
-		this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-		this.addKeyListener(this);
+		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		inicializarComponentes();
 		inicializarListeners();
 	}
@@ -50,7 +47,7 @@ public class PanelNotas extends JDialog implements KeyListener{
 		//Inicializamos JTextArea con sus settings.
 		settings = new GridBagConstraints();
 		settings.gridy=0;
-		settings.gridwidth=2;
+		settings.gridwidth=3;
 		settings.weighty=8;
 		settings.fill = GridBagConstraints.BOTH;
 		texto = new JTextArea();
@@ -69,10 +66,22 @@ public class PanelNotas extends JDialog implements KeyListener{
 		guardar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		this.add(guardar, settings);
 		
-		//Inicializamos Boton cerrar
+		//Inicializamos Boton Limpiar.
 		settings = new GridBagConstraints();
 		settings.gridy=1;
 		settings.gridx=1;
+		settings.weightx=1;
+		settings.weighty=1;
+		settings.fill=GridBagConstraints.BOTH;
+		
+		limpiar = new JButton("Limpiar");
+		limpiar.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		this.add(limpiar, settings);
+		
+		//Inicializamos Boton cerrar
+		settings = new GridBagConstraints();
+		settings.gridy=1;
+		settings.gridx=2;
 		settings.weighty=1;
 		settings.weightx=1;
 		settings.fill=GridBagConstraints.BOTH;
@@ -84,6 +93,15 @@ public class PanelNotas extends JDialog implements KeyListener{
 	//Cierra el panel
 	public void cerrarVentana() {
 		this.dispose();
+	}
+	public void limpiarVentana() {
+		int guarda = JOptionPane.showConfirmDialog(this, "¿Desea guardar la información del fichero antes de borrar?", "Guardar  fichero", 0);
+		if(guarda!=1) {
+			guardarFichero();
+			texto.setText("");
+		}else {
+			texto.setText("");
+		}
 	}
 	/**
 	 * 
@@ -126,6 +144,13 @@ public class PanelNotas extends JDialog implements KeyListener{
 				cerrarVentana();
 			}
 		});
+		limpiar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				limpiarVentana();
+			}
+		});
 		guardar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -135,26 +160,6 @@ public class PanelNotas extends JDialog implements KeyListener{
 		});
 		
 	}
-	
-	//Abre el panel si se pincha la tecla ALT.
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int key = e.getKeyCode();
-		if(key == KeyEvent.VK_ALT) {
-			miDialog.setVisible(true);
-		}	
-	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 }
