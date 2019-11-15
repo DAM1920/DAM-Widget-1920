@@ -1,11 +1,8 @@
 package Canalo_Dominguez_Angel;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagLayout;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
@@ -45,9 +42,9 @@ public class JReloj extends JPanel implements Runnable {
 
 	@Override
 	public void run() {
-		calendario = Calendar.getInstance();
 		contando = true;
 		while (contando) {
+			calendario = Calendar.getInstance();
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
