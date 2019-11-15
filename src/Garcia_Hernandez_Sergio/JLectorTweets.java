@@ -19,6 +19,8 @@ import twitter4j.conf.ConfigurationBuilder;
 /**
  * Componente de tipo JPanel que nos muestra los últimos 5 tweets de un usuario 
  * que será dado por el usuario mediante un JTextField.
+ * Para que se visualice correctamente, las medidas mínimas de la ventana deben ser:
+ * Ancho: 380 - Alto: 650
  * 
  * @author Sergio García Hernández
  */
