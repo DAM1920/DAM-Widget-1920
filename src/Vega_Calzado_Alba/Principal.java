@@ -1,16 +1,31 @@
 package Vega_Calzado_Alba;
 
+import java.awt.EventQueue;
+
 /**
  * Clase principal.
  * 
  * @author Alba Vega Calzado
  *
  */
-
 public class Principal {
-
+	/**
+	 * Método main
+	 * @param args cadenas de parámetros del main
+	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		EventQueue.invokeLater(new Runnable() {
+			
+			public void run() {
+				try {
+					VentanaPrincipal ventana = new VentanaPrincipal();
+					ventana.inicializar();
+				}
+				catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 
 	}
 
