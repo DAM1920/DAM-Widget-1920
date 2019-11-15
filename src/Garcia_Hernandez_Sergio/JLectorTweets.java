@@ -42,6 +42,7 @@ public class JLectorTweets extends JPanel {
 		// Inicializamos el JLabel y cambiamos el estilo de letra
 		setLayout(new GridBagLayout());
 		
+		// Settings para el layout
 		GridBagConstraints settings;
 
 		// Metemos el JLabel
