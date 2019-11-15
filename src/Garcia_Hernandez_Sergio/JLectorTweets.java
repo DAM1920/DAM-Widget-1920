@@ -2,11 +2,8 @@ package Garcia_Hernandez_Sergio;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -19,12 +16,21 @@ import javax.swing.JTextField;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
 
+/**
+ * Componente de tipo JPanel que nos muestra los últimos 5 tweets de un usuario 
+ * que será dado por el usuario mediante un JTextField.
+ * 
+ * @author Sergio García Hernández
+ */
 public class JLectorTweets extends JPanel {
 
 	private JTextField textFieldNombreUsuario;
 	private JButton botonMostrarTweets;
 	private JTextArea[] panelTweets;
 
+	/**
+	 * Constructor por defecto del componente.
+	 */
 	public JLectorTweets() {
 		super(); // Creación del panel
 		// Color de fondo
@@ -72,6 +78,7 @@ public class JLectorTweets extends JPanel {
 		
 		panelTweets = new JTextArea[5];
 		
+		// Añadimos los 5 JTextArea
 		for (int i=0; i<5; i++) {
 			panelTweets[i] = new JTextArea();
 			panelTweets[i].setEditable(false);
@@ -90,25 +97,28 @@ public class JLectorTweets extends JPanel {
 			add(panelTweets[i], settings);
 		}
 
-		
-		
 		// Inicializamos los listeners
 		inicializarListeners();
 	}
 
+	/**
+	 * Inicializa el listener del botón para mostrar tweets
+	 */
 	public void inicializarListeners() {
 		botonMostrarTweets.addActionListener((e) -> {
 			Twitter twitter = getObjetoTwitter();
 			Status tweet;
 			
 			try {				
+				// Cogemos el nombre de usuario
 				String user = textFieldNombreUsuario.getText();
 				String texto, fecha;
 				
+				// Obtenemos una lista con todos sus Tweets
 				List<Status> listaTweets = twitter.getUserTimeline(user); 
 				
+				// Como mucho mostramos los 5 últimos
 				int tamano = Math.min(listaTweets.size(), 5);
-				
 				
 				for (int i=0; i<tamano; i++) {					
 					// Almacenamos toda la info relativa al tweet
@@ -117,19 +127,12 @@ public class JLectorTweets extends JPanel {
 					
 					texto = "Fecha publicación: [" + fecha + "]\n" + tweet.getText();
 					
-					//panelTweets[i].add(new JLabel(listaTweets.get(i).getText()));
 					panelTweets[i].setText(texto);
-
-					
 				}
 				
 			} catch (TwitterException te) {
 				te.printStackTrace();
-				//cadenaTweets = ("No se pudo obtener timeline: " + te.getMessage());
-			} finally {
-				//panelTweets.setText(cadenaTweets);
-			}
-			
+			} 			
 			
 		}); // FIN LISTENER BOTÓN
 	}
