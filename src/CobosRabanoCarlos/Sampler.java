@@ -21,10 +21,16 @@ import javax.swing.JPanel;
 
 import com.sun.org.apache.xerces.internal.impl.RevalidationHandler;
 
+/**
+ * Es la clase a través de la que gestionaremos nuestro sampler
+ * Contendrá una ventana con la interfaz
+ * @author ccobosr02
+ *
+ */
 public class Sampler {
-	JFrame ventana;
+	JFrame ventana;//Creamos una ventana
 	
-	JLabel titulo;
+	JLabel titulo;//Un label para colocar un nombre al sampler
 	
 	//panel de los botones y los botones
 	JPanel panelBotones;
@@ -33,6 +39,7 @@ public class Sampler {
 	//Array con las direcciones de los sonidos para asignarlos a los botones
 	String[] txtSonidos;
 	
+	//Una barra de menú donde ofreceremos varias opciones al usuario
 	JMenuBar barraMenu;
 	JMenu menuArchivo;
 	JMenuItem itemGuardar;
@@ -48,6 +55,10 @@ public class Sampler {
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
+	/**
+	 * Colocamos un listener a los botones de la barra de menú
+	 * Los botones del sampler ya implementan la interfaz MouseListener
+	 */
 	public void inicializarListeners() {
 		itemGuardar.addActionListener(new ActionListener() {
 			
@@ -102,8 +113,7 @@ public class Sampler {
 		settings.gridy=1;
 		settings.weightx=1;
 		settings.weighty=4;
-		settings.ipadx=30;
-		settings.ipady=30;
+		settings.insets=new Insets(10, 10, 10, 10);
 		settings.fill=GridBagConstraints.BOTH;
 		panelBotones=new JPanel();
 		ventana.add(panelBotones, settings);
@@ -115,22 +125,12 @@ public class Sampler {
 				botones[i][j].setFocusPainted(false);
 				botones[i][j].setBackground(new Color(59, 89, 182));
 				botones[i][j].setFont(new Font("Tahoma", Font.BOLD, 12));
-				botones[i][j].setForeground(Color.WHITE);				
-				/*botones[i][j].setFichero(new File("./sonidos/ringtones-super-mario-bros.mp3"));
-				botones[i][j].setSonido(new ReproduccionSonido(botones[i][j].getFichero(), botones[i][j]));
-				botones[i][j].setDescripcion("mario");*/
-				/*settings=new GridBagConstraints();
-				settings.gridx=i;
-				settings.gridy=j;
-				settings.insets=new Insets(20, 20, 20, 20);
-				settings.fill=GridBagConstraints.BOTH;
-				settings.weightx=1;
-				settings.weighty=1;*/
+				botones[i][j].setForeground(Color.WHITE);
 				panelBotones.add(botones[i][j]);				
 			}
 		}
 		
-		//Colocamos la barra de menï¿½
+		//Colocamos la barra de menú
 		barraMenu=new JMenuBar();
 		ventana.setJMenuBar(barraMenu);
 		menuArchivo=new JMenu("Archivo");
@@ -147,11 +147,11 @@ public class Sampler {
 		
 	}
 
+	/**
+	 * Devuelve la matriz de botones
+	 * @return
+	 */
 	public BotonSampler[][] getBotones() {
 		return botones;
-	}
-
-	public void setBotones(BotonSampler[][] botones) {
-		this.botones = botones;
 	}
 }

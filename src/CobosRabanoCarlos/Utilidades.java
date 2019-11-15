@@ -13,6 +13,9 @@ import javax.swing.JOptionPane;
 
 public class Utilidades {
 
+	/**
+	 * Una clase que nos permitirá realizar algunas acciones independientes de la clase Sampler o BotonSampler
+	 */
 	public Utilidades() {
 		super();
 		// TODO Auto-generated constructor stub

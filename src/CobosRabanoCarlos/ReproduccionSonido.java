@@ -8,11 +8,16 @@ import java.io.Serializable;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
+/**
+ * Una clase que nos permite reproducir un sonido en un nuevo hilo
+ * @author ccobosr02
+ *
+ */
 public class ReproduccionSonido extends Thread implements Serializable{
-	File fich;
-	boolean pausa;
-	Player apl;
-	BotonSampler boton;
+	File fich;//El fichero que va a reproducir
+	boolean pausa;//Si está pausado o reproduciendo
+	Player apl;//Objeto de la clase Player de la librería javazoom
+	BotonSampler boton;//Botón al que hemos asociado un objeto de esta clase
 
 	public ReproduccionSonido(File fich, BotonSampler boton) {
 		this.fich = fich;
@@ -30,10 +35,8 @@ public class ReproduccionSonido extends Thread implements Serializable{
 	}
 
 	/**
-	 * Reproduce el sonido cuya ruta le hemos pasado por parï¿½metros
+	 * Reproduce el sonido cuya ruta le hemos pasado por parámetros
 	 */
-	
-
 	public void run() {
 		pausa=false;
 		try {
@@ -51,13 +54,18 @@ public class ReproduccionSonido extends Thread implements Serializable{
 		parar();
 		boton.parar();
 	}
-
+	
+	/**
+	 * Nos devuelve un boolean que indica si el sonido está pausado
+	 * @return
+	 */
 	public boolean isPausado() {
 		return pausa;
-	}
+	}	
 
-	
-
+	/**
+	 * Detiene la reproducción del sonido
+	 */
 	public void parar() {		
 		pausa=true;
 	}
