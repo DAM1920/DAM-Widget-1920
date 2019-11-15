@@ -40,13 +40,13 @@ public class PixelPaint extends JPanel {
 	MiMouse listener;
 	
 	public PixelPaint() {
-		añadirElementos();
+		anadirElementos();
 		inicializarListener();
 	}
 	/**
 	 * Inicializamos los paneles
 	 */
-	public void añadirElementos() {
+	public void anadirElementos() {
 		
 		this.setLayout(new GridBagLayout());
 		
@@ -54,19 +54,19 @@ public class PixelPaint extends JPanel {
 		panelSelectorColor = new JPanel();
 		panelSelectorColor.setLayout(new GridBagLayout());
 		panelSelectorColor.setBorder(BorderFactory.createMatteBorder(20, 20, 20, 20, Color.CYAN));
-		añadirBotones();
+		anadirBotones();
 
 		// Panel Pixel
 		panelPixel = new JPanel();
 		panelPixel.setLayout(new GridLayout(20, 20));
-		añadirLienzo();
+		anadirLienzo();
 
 	}
 
 	/**
 	 * Añadimos al panelPixel la matriz de paneles
 	 */
-	public void añadirLienzo() {
+	public void anadirLienzo() {
 		GridBagConstraints setting = new GridBagConstraints();
 		lienzo = new JPanel[20][20];
 		for (int i = 0; i < lienzo.length; i++) {
@@ -92,7 +92,7 @@ public class PixelPaint extends JPanel {
 	/**
 	 * Añadimos al panelSelectorColor , los botones y el label
 	 */
-	public void añadirBotones() {
+	public void anadirBotones() {
 		GridBagConstraints setting = new GridBagConstraints();
 		Font font = new Font("Agency FB", Font.BOLD, 20);
 		
