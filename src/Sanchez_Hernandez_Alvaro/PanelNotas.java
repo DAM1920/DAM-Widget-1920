@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
@@ -97,14 +98,20 @@ public class PanelNotas extends JDialog {
 		this.add(cerrar, settings);
 	}
 	
-	
+	/**
+	 * Comprueba que el cuadro de texto no este vacío.
+	 * @return : devuelve true si el panel de texto esta vacio y false si tiene algo escrito
+	 */
+	public boolean estaVacio() {
+		return texto.getText().isEmpty();
+	}
 	/**
 	 * Si el usuario quiere guardar el fichero llamara a guardarFichero().
 	 * Esté método siempre cierra el JDialog.
 	 * En caso de que el usuario no haya escrito nada,no se preguntará si quiere guardar el fichero.
 	 */
 	public void cerrarVentana() {
-		if(!texto.getText().isEmpty()) {
+		if(!estaVacio()) {
 			int guardar = eleccion();
 			if(guardar!=1) {
 			guardarFichero();
@@ -127,7 +134,7 @@ public class PanelNotas extends JDialog {
 	 * Comprueba que el campo de texto esta vacio para no preguntar.
 	 */
 	public void limpiarVentana() {
-		if(!texto.getText().isEmpty()) {
+		if(!estaVacio()) {
 			int guarda = eleccion();
 			if(guarda!=1) {
 				guardarFichero();
@@ -147,31 +154,39 @@ public class PanelNotas extends JDialog {
 		pw.write(text);
 	}
 	/**
-	 * Este método pide el nombre del archivo y creara un directorio en la ruta de nuestro programa.
+	 * Comprueba que el campo de texto no esta vacío para guardar el archivo,en caso contrario mostrara un mensaje.
+	 * Mostrara un explorador de archivos para elegir donde guardar y el nombre que le queremos dar al fichero.
 	 * Declara los writer para escribir en el fichero.
 	 */
 	public void guardarFichero() {
-		//Pedimos nombre del fichero.
-		String nombre  = JOptionPane.showInputDialog("Introduce el nombre del fichero")+".txt";
-		//Declaramos el lugar donde se va a guardar
-		File directorio = new File("Notas");
-		File archivo = new File(directorio,nombre);
-		if(!directorio.exists()) {
-			directorio.mkdir();
-		}
-		
-		try {
-			//Declaramos los writer.
-			FileWriter fw = new FileWriter(archivo);
-			PrintWriter pw = new PrintWriter(fw);
+		if(estaVacio()) {
+			JOptionPane.showMessageDialog(this, "El texto esta vacio no se puede guardar");
+		}else {
+			//Pedimos nombre del fichero.
 			
-			escribirFichero(pw);//Escribimos en el fichero
-			pw.close(); //Cerramos flujo.
-		}catch(IOException ioe) {
-			System.out.println(ioe.getMessage());
-			ioe.printStackTrace();
-		}
-		
+			JFileChooser jfc = new JFileChooser();
+			int seleccion = jfc.showOpenDialog(this);
+			
+			if(seleccion == JFileChooser.APPROVE_OPTION) {
+				File directorio = jfc.getCurrentDirectory();
+				File archivo = jfc.getSelectedFile();
+				
+				File archivoDef = new File(directorio, archivo.getName()+".txt");
+				try {
+					//Declaramos los writer.
+					FileWriter fw = new FileWriter(archivoDef);
+					PrintWriter pw = new PrintWriter(fw);
+					
+					escribirFichero(pw);//Escribimos en el fichero
+					pw.close(); //Cerramos flujo.
+				}catch(IOException ioe) {
+					System.out.println(ioe.getMessage());
+					ioe.printStackTrace();
+				}
+			}		
+			
+			
+		}	
 	}
 	/**
 	 * Inicializa los listeners para cada uno de los botones.

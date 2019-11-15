@@ -22,19 +22,24 @@ public class VentanaPrincipal implements KeyListener{
 	//Muestra la ventana.
 	public void inicializar() {
 		marco.setVisible(true);
+		panel = new PanelNotas();
+		panel.setVisible(false);
 	}
 	
 	
 	//Establece el Listener para que se habra el panel al pulsar el control.
+	//Controla que el panel no este ya desplegado.
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		if(key == KeyEvent.VK_CONTROL) {
-			panel = new PanelNotas();
-			panel.setVisible(true);
-			panel.revalidate();
-			panel.repaint();
-			}
+		if(!panel.isVisible()) {
+			if(key == KeyEvent.VK_CONTROL) {
+				panel = new PanelNotas();
+				panel.setVisible(true);
+				panel.revalidate();
+				panel.repaint();
+				}
+		}
 		
 	}
 	@Override
