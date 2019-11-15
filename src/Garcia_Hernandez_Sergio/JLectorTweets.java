@@ -150,10 +150,10 @@ public class JLectorTweets extends JPanel {
 	 */
 	private Twitter getObjetoTwitter() {
 		ConfigurationBuilder cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(true).setOAuthConsumerKey("bnOzzlRNvqx7a2fTcJZX7pH07")
-				.setOAuthConsumerSecret("qlj9bOXxXcYY8LbGvX4qKNTlKcTQQRCy9NtPlp7ejB6au3Y99A")
-				.setOAuthAccessToken("378087758-EVDCoy1FIOqr0ca1VFvjGXj0s9uIA9A7Mql45MBo")
-				.setOAuthAccessTokenSecret("FzePaRdHx7tZ1aTXAptiGwoJg4akyqd3ijPcm9u4hG9GI");
+		cb.setDebugEnabled(true).setOAuthConsumerKey("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+				.setOAuthConsumerSecret("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+				.setOAuthAccessToken("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
+				.setOAuthAccessTokenSecret("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
 		TwitterFactory tf = new TwitterFactory(cb.build());
 		Twitter twitter = tf.getInstance();
 		return twitter;
