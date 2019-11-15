@@ -37,8 +37,12 @@ public class PixelPaint extends JPanel {
 	JLabel texto;
 	JLabel opc;
 	Color colorPaint = Color.BLACK;
+	MiMouse listener;
 	
-
+	public PixelPaint() {
+		añadirElementos();
+		inicializarListener();
+	}
 	/**
 	 * Inicializamos los paneles
 	 */
