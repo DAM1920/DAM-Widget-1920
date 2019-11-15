@@ -232,7 +232,7 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		if (arg0.getSource() == colores) {
 			Color aux = color;
 			color = JColorChooser.showDialog(null, "Seleccione un color", this.color);
-			System.out.println(color);
+
 			if (color == null) {
 				color = aux;
 			}
@@ -274,9 +274,7 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 	}
 
 	public void actualizarFuentes() {
-		System.out.println(negrita);
-		System.out.println(italica);
-		System.out.println(tamanioActual);
+
 		if (negrita == true && italica == true) {
 			checkNegrita.setSelected(true);
 			checkItalica.setSelected(true);
@@ -302,6 +300,7 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		}
 		letra.setSelectedIndex(indice);
 		tamanio.setSelectedIndex(indiceTamanio);
+		editor.setForeground(colorActual);
 
 	}
 
