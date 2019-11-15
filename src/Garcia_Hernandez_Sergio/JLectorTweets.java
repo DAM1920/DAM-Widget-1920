@@ -51,7 +51,7 @@ public class JLectorTweets extends JPanel {
 		settings.gridy = 0;
 		settings.weighty = 1;
 		settings.weightx = 1;
-		JLabel label = new JLabel("Nombre del usuario:  @");
+		JLabel label = new JLabel("Usuario:  @");
 		label.setFont(new Font("Calibri", Font.BOLD, 15));
 		add(label, settings);
 
