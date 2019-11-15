@@ -110,6 +110,9 @@ public class JLectorTweets extends JPanel {
 			Twitter twitter = getObjetoTwitter();
 			Status tweet;
 			
+			for (int i=0; i<5; i++)
+				panelTweets[i].setText("");
+			
 			try {				
 				// Cogemos el nombre de usuario
 				String user = textFieldNombreUsuario.getText();
@@ -132,7 +135,8 @@ public class JLectorTweets extends JPanel {
 				}
 				
 			} catch (TwitterException te) {
-				te.printStackTrace();
+				//te.printStackTrace();
+				panelTweets[0].setText("No existe ningún usuario con ese nombre.");
 			} 			
 			
 		}); // FIN LISTENER BOTÓN
