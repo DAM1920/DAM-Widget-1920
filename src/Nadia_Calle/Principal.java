@@ -9,7 +9,6 @@ public class Principal {
 		public void run() {
 			try {
 				VentanaPrincipal ventanaPrincipal = new VentanaPrincipal();
-				ventanaPrincipal.inicializar();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
