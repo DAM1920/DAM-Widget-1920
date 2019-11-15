@@ -29,11 +29,12 @@ public class Escrituras {
 		this.editor = editor;
 	}
 
+	/**
+	 * Clase para guardar, salen ventanas y asigna valor a las variables de fuentes
+	 */
 	void save() {
-		int i;
 		FileOutputStream fos = null;
 		ObjectOutputStream ous = null;
-		String font = editor.getFont().toString();
 		JFileChooser archivo = new JFileChooser(System.getProperty("user.dir"));
 		JFileChooser archivoBinario = new JFileChooser(System.getProperty("user.dir"));
 		JFileChooser archivoColor = new JFileChooser(System.getProperty("user.dir"));
@@ -83,6 +84,9 @@ public class Escrituras {
 
 	}
 
+	/**
+	 * Metodo que sirve para abrir los ficheros
+	 */
 	void open() {
 		String linea = "";
 		String texto = "";

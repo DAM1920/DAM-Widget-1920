@@ -53,6 +53,9 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 	int indice;
 	int indiceTamanio;
 
+	/**
+	 * Constructor de la ventana
+	 */
 	public VentanaPrincipal() {
 		ventana = new JFrame("Bloc de notas");
 		Toolkit theKit = ventana.getToolkit();
@@ -87,7 +90,7 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		mi3 = new JMenuItem("Abrir");
 		mi3.addActionListener(this);
 		menu1.add(mi3);
-
+//Creo JCheckBox y añado listeners
 		checkNegrita = new JCheckBox("Negrita");
 
 		checkNegrita.addItemListener(this);
@@ -95,7 +98,7 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		checkItalica = new JCheckBox("Italica");
 
 		checkItalica.addItemListener(this);
-
+//Creo y añado listener a JComboBox
 		tamanio = new JComboBox<String>();
 
 		tamanio.addActionListener(this);
@@ -104,7 +107,7 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		letra = new JComboBox<String>();
 		letra.addActionListener(this);
 		letra.setModel(new DefaultComboBoxModel<>(fontNames));
-
+//boton para colores
 		colores = new JButton();
 		colores.setIcon(new ImageIcon(".//img//colores.png"));
 		colores.addActionListener(this);
@@ -113,7 +116,7 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		settings = new GridBagConstraints();
 		settings.gridx = 0;
 		settings.gridy = 0;
-
+//los integro en gridbaglayout
 		opciones.add(checkNegrita, settings);
 		settings = new GridBagConstraints();
 		settings.gridx = 1;
@@ -166,11 +169,13 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		settings.weightx = 1;
 		settings.weighty = 16;
 		ventana.add(editor, settings);
-
+//creo un objeto escritura
 		escritura = new Escrituras(this, ventana, editor);
 	}
 
-	@Override
+	/**
+	 * Listener encargado de los menus y los jcombobox
+	 */
 	public void actionPerformed(ActionEvent arg0) {
 		Container f = ventana.getContentPane();
 		if (arg0.getSource() == mi3) {
@@ -242,7 +247,9 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 
 	}
 
-	@Override
+	/**
+	 * Listener encargado de los checkbox
+	 */
 	public void itemStateChanged(ItemEvent arg0) {
 		negrita = true;
 		italica = true;
@@ -273,6 +280,10 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 
 	}
 
+	/**
+	 * Metodo que se llama desde escritura para actualizar las fuentes, color y lo
+	 * seleccionado
+	 */
 	public void actualizarFuentes() {
 
 		if (negrita == true && italica == true) {
