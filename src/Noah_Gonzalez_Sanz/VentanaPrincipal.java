@@ -12,7 +12,7 @@ public class VentanaPrincipal {
 	public VentanaPrincipal() {
 		marco = new JFrame("Pixel Paint");
 		paint = new PixelPaint();
-		marco.setBounds(0, 0, 900, 600);
+		marco.setBounds(0, 0, 990, 600);
 		marco.setLayout(new GridLayout(0,1));
 		marco.add(paint);
 		marco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

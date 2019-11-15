@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 public class PixelPaint extends JPanel {
+	
 	JPanel panelSelectorColor;
 	JPanel [][] lienzo;
 	JPanel panelPixel;
