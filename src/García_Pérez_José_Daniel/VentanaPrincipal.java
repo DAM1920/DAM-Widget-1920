@@ -162,7 +162,7 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		ventana.add(opciones, settings);
 
 		settings = new GridBagConstraints();
-		editor = new BlocDeTexto();
+		editor = new JTextPane();
 		settings.gridx = 0;
 		settings.gridy = 1;
 		settings.fill = GridBagConstraints.BOTH;
