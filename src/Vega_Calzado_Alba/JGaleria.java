@@ -112,4 +112,7 @@ public class JGaleria extends JPanel{
 	}
 	//https://stackoverflow.com/questions/17383867/set-icon-image-in-java
 	//https://stackoverflow.com/questions/299495/how-to-add-an-image-to-a-jpanel
+	//https://www.youtube.com/watch?v=iMFDAklzfmM
+	//Probar a convertir el array a imageicons
+	//https://lefunes.wordpress.com/2009/01/29/cargando-imagenes-desde-java/
 }
