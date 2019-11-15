@@ -3,6 +3,9 @@ package Vega_Calzado_Alba;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -17,33 +20,36 @@ import javax.swing.Timer;
 
 /**
  * 
+ * 
  * @author Alba Vega Calzado
  *
  */
 public class JGaleria extends JPanel{
-	ArrayList<String> imagenes;
-	//
-	
+	ArrayList<String> rutasImagenes;
+	ArrayList<ImageIcon> vImagenes;
 	JLabel contenedor;
-	int contador=1;
+	int contador=0;
 	
 	public JGaleria() {
-		super();
+		super(new GridLayout(1,1));
 		contenedor= new JLabel();
-		ArrayList <String> imagenes = new ArrayList();
+		add(contenedor);
+		rutasImagenes = new ArrayList<>();
+		vImagenes = new ArrayList<>();
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
 	}
 
 
 	public void iniciarGaleria() {
-		String ruta = System.getProperty("/img/imgGaleria");
+		String ruta = "img\\imgGaleria";
 		
-		guardarImagenes(ruta);
-		mostrarPrimeraImagen(imagenes);
+		guardarRutasImagenes(ruta);
+		mostrarPrimeraImagen(rutasImagenes);
+		crearArrayImagenes(rutasImagenes);
 	}
 	
-	public void guardarImagenes(String ruta) {
-		boolean cargado;
+	public void guardarRutasImagenes(String ruta) {
 		String nombreImg;
 		
 		File fGaleria = new File(ruta);
@@ -57,62 +63,81 @@ public class JGaleria extends JPanel{
 				
 				//Comprobamos si su extensión es la correcta
 				if(nombreImg.endsWith(".jpg") || nombreImg.endsWith(".JPG")) {
-					imagenes.add(ruta+"/"+nombreImg);
-					//new ImagenIcon(getClass().getResourve("img/imgGaleria/"+i+"jpg"))
+					rutasImagenes.add(ruta+"\\"+nombreImg);
 				}
-				
 			}
 		}
 	}
 	
-	public void mostrarPrimeraImagen(ArrayList<String> imagenes) {
+	public void mostrarPrimeraImagen(ArrayList<String> rutasImagenes) {
+		ImageIcon[] vImagenes;
+		
 		try {
-			BufferedImage imagen = ImageIO.read(new File(imagenes.get(0)));
+			BufferedImage imagen = ImageIO.read(new File(rutasImagenes.get(0)));
+			ImageIcon icon = new ImageIcon(imagen.getScaledInstance(800,500, imagen.SCALE_SMOOTH));
 			
-			contenedor.setIcon(new ImageIcon(imagen));
+			contenedor.setIcon(icon);
 		}
 		catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public void crearArrayImagenes(ArrayList<String> imagenes) {
+		
+		
+		try{
+			for(int i=0;i<imagenes.size();i++) {
+				BufferedImage imagen = ImageIO.read(new File(rutasImagenes.get(i)));
+				vImagenes.add(new ImageIcon(imagen.getScaledInstance(800,500, imagen.SCALE_SMOOTH)));
+			}
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 	public void avanzar() {
 		//Si llegamos a la última imagen de la presentación, reseteamos el contador
-		if(contador==(imagenes.size()-1)) {
+		if(contador==(vImagenes.size()-1)) {
 			contador=0;
+			contenedor.setIcon(vImagenes.get(contador));
 		}
-		contador++;
-		contenedor.setIcon(new ImageIcon(imagenes.get(contador)));
+		else {
+			contador++;
+			contenedor.setIcon(vImagenes.get(contador));
+		}
 	}
 	
 	public void retroceder() {
 		//Si llegamos a la primera imagen, volvemos a la última del arraylist
-		if(contador==1) {
-			contador=4;
+		if(contador==0) {
+			contador=vImagenes.size()-1;
+			
+			contenedor.setIcon(vImagenes.get(contador));
 		}
-		contador--;
-		
-		contenedor.setIcon(new ImageIcon(imagenes.get(contador)));
+		else {
+			contador--;
+			
+			contenedor.setIcon(vImagenes.get(contador));
+		}
 	}
 	
 	public void presentacion() {
-		Timer timer = new Timer(600, new ActionListener() {
+		Timer timer = new Timer(1000, new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				contenedor.setIcon(new ImageIcon(getClass().getResource(imagenes.get(contador))));
+				contenedor.setIcon(vImagenes.get(contador));
 				contador++;
 				
-				if(contador==imagenes.size()) {
-					contador=1;
+				if(contador==vImagenes.size()) {
+					contador=0;
 				}
 			}
 		});
 		timer.start();
 	}
-	//https://stackoverflow.com/questions/17383867/set-icon-image-in-java
-	//https://stackoverflow.com/questions/299495/how-to-add-an-image-to-a-jpanel
-	//https://www.youtube.com/watch?v=iMFDAklzfmM
-	//Probar a convertir el array a imageicons
-	//https://lefunes.wordpress.com/2009/01/29/cargando-imagenes-desde-java/
 }
