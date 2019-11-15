@@ -45,6 +45,13 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 	StyleContext st;
 	Color color;
 	Escrituras escritura;
+	String fuente;
+	Color colorActual;
+	boolean negrita;
+	boolean italica;
+	int tamanioActual;
+	int indice;
+	int indiceTamanio;
 
 	public VentanaPrincipal() {
 		ventana = new JFrame("Bloc de notas");
@@ -97,7 +104,6 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 		letra = new JComboBox<String>();
 		letra.addActionListener(this);
 		letra.setModel(new DefaultComboBoxModel<>(fontNames));
-		letra.setSelectedItem(fontNames[0]);
 
 		colores = new JButton();
 		colores.setIcon(new ImageIcon(".//img//colores.png"));
@@ -180,12 +186,48 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 			editor.setText("");
 		}
 		if (arg0.getSource() == tamanio) {
-			editor.setFont(new Font(letra.getSelectedItem().toString(), Font.PLAIN,
-					Integer.parseInt(tamanio.getSelectedItem().toString())));
+			tamanioActual = Integer.parseInt(tamanio.getSelectedItem().toString());
+			fuente = letra.getSelectedItem().toString();
+			if (negrita == true && italica == true) {
+				editor.setFont(new Font(letra.getSelectedItem().toString(), Font.BOLD | Font.ITALIC,
+						Integer.parseInt(tamanio.getSelectedItem().toString())));
+			} else {
+				if (negrita == true) {
+					editor.setFont(new Font(letra.getSelectedItem().toString(), Font.BOLD,
+							Integer.parseInt(tamanio.getSelectedItem().toString())));
+				} else {
+					if (italica == true) {
+						editor.setFont(new Font(letra.getSelectedItem().toString(), Font.ITALIC,
+								Integer.parseInt(tamanio.getSelectedItem().toString())));
+					} else {
+						editor.setFont(new Font(letra.getSelectedItem().toString(), Font.PLAIN,
+								Integer.parseInt(tamanio.getSelectedItem().toString())));
+					}
+				}
+			}
+			indiceTamanio = tamanio.getSelectedIndex();
 		}
 		if (arg0.getSource() == letra) {
-			editor.setFont(new Font(letra.getSelectedItem().toString(), Font.PLAIN,
-					Integer.parseInt(tamanio.getSelectedItem().toString())));
+			tamanioActual = Integer.parseInt(tamanio.getSelectedItem().toString());
+			fuente = letra.getSelectedItem().toString();
+			if (negrita == true && italica == true) {
+				editor.setFont(new Font(letra.getSelectedItem().toString(), Font.BOLD | Font.ITALIC,
+						Integer.parseInt(tamanio.getSelectedItem().toString())));
+			} else {
+				if (negrita == true) {
+					editor.setFont(new Font(letra.getSelectedItem().toString(), Font.BOLD,
+							Integer.parseInt(tamanio.getSelectedItem().toString())));
+				} else {
+					if (italica == true) {
+						editor.setFont(new Font(letra.getSelectedItem().toString(), Font.ITALIC,
+								Integer.parseInt(tamanio.getSelectedItem().toString())));
+					} else {
+						editor.setFont(new Font(letra.getSelectedItem().toString(), Font.PLAIN,
+								Integer.parseInt(tamanio.getSelectedItem().toString())));
+					}
+				}
+			}
+			indice = letra.getSelectedIndex();
 		}
 		if (arg0.getSource() == colores) {
 			Color aux = color;
@@ -195,30 +237,71 @@ public class VentanaPrincipal implements ActionListener, ItemListener {
 				color = aux;
 			}
 			editor.setForeground(color);
+			colorActual = color;
 		}
 
 	}
 
 	@Override
 	public void itemStateChanged(ItemEvent arg0) {
+		negrita = true;
+		italica = true;
 		if (checkItalica.isSelected() && checkNegrita.isSelected()) {
 			editor.setFont(new Font(letra.getSelectedItem().toString(), Font.ITALIC | Font.BOLD,
 					Integer.parseInt(tamanio.getSelectedItem().toString())));
 
 		} else {
+			italica = true;
+			negrita = false;
 			if (checkItalica.isSelected()) {
 				editor.setFont(new Font(letra.getSelectedItem().toString(), Font.ITALIC,
 						Integer.parseInt(tamanio.getSelectedItem().toString())));
 			} else {
+				italica = false;
+				negrita = true;
 				if (checkNegrita.isSelected()) {
 					editor.setFont(new Font(letra.getSelectedItem().toString(), Font.BOLD,
 							Integer.parseInt(tamanio.getSelectedItem().toString())));
 				} else {
+					italica = false;
+					negrita = false;
 					editor.setFont(new Font(letra.getSelectedItem().toString(), Font.PLAIN,
 							Integer.parseInt(tamanio.getSelectedItem().toString())));
 				}
 			}
 		}
+
+	}
+
+	public void actualizarFuentes() {
+		System.out.println(negrita);
+		System.out.println(italica);
+		System.out.println(tamanioActual);
+		if (negrita == true && italica == true) {
+			checkNegrita.setSelected(true);
+			checkItalica.setSelected(true);
+
+			editor.setFont(new Font(fuente, Font.BOLD | Font.ITALIC, tamanioActual));
+		} else {
+			if (negrita == true) {
+				checkNegrita.setSelected(true);
+				checkItalica.setSelected(false);
+				editor.setFont(new Font(fuente, Font.BOLD, tamanioActual));
+			} else {
+
+				if (italica == true) {
+					checkItalica.setSelected(true);
+					checkNegrita.setSelected(false);
+					editor.setFont(new Font(fuente, Font.ITALIC, tamanioActual));
+				} else {
+					checkItalica.setSelected(false);
+					checkNegrita.setSelected(false);
+					editor.setFont(new Font(fuente, Font.PLAIN, tamanioActual));
+				}
+			}
+		}
+		letra.setSelectedIndex(indice);
+		tamanio.setSelectedIndex(indiceTamanio);
 
 	}
 

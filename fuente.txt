@@ -1,1 +1,7 @@
-javax.swing.plaf.FontUIResource[family=Dialog,name=Dialog,style=plain,size=12]
+null
+Adobe Fangsong Std R
+true
+true
+20
+5
+5
