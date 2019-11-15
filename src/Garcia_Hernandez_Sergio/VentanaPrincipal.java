@@ -13,7 +13,7 @@ public class VentanaPrincipal {
 	// Constructor, marca el tamaño y el cierre del frame
 	public VentanaPrincipal() {
 		ventana = new JFrame();
-		ventana.setBounds(100, 50, 500, 500);
+		ventana.setBounds(100, 50, 380, 650);
 		ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
