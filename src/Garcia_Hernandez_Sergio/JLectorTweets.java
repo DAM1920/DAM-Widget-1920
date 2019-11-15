@@ -2,9 +2,11 @@ package Garcia_Hernandez_Sergio;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -40,8 +42,10 @@ public class JLectorTweets extends JPanel {
 		settings = new GridBagConstraints();
 		settings.gridx = 0;
 		settings.gridy = 0;
+		settings.weighty = 1;
+		settings.weightx = 1;
 		JLabel label = new JLabel("Nombre del usuario:  @");
-		label.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 15));
+		label.setFont(new Font("Calibri", Font.BOLD, 15));
 		add(label, settings);
 
 		// Metemos el textFieldNombreUsuario
@@ -49,6 +53,8 @@ public class JLectorTweets extends JPanel {
 		settings.gridx = 1;
 		settings.gridy = 0;
 		settings.ipadx = 200;
+		settings.weighty = 1;
+		settings.weightx = 1;
 		settings.fill = GridBagConstraints.HORIZONTAL;
 		textFieldNombreUsuario = new JTextField();
 		add(textFieldNombreUsuario, settings);
@@ -58,6 +64,8 @@ public class JLectorTweets extends JPanel {
 		settings.gridx = 0;
 		settings.gridy = 1;
 		settings.gridwidth = 2;
+		settings.weightx = 1;
+		settings.weighty = 1;		
 		settings.fill = GridBagConstraints.NONE;
 		botonMostrarTweets = new JButton("Mostrar Tweets");
 		add(botonMostrarTweets, settings);
@@ -75,8 +83,10 @@ public class JLectorTweets extends JPanel {
 			settings.gridx = 0;
 			settings.gridy = (i+2);
 			settings.gridwidth = 2;	
-			settings.ipady = 50;
-			settings.fill = GridBagConstraints.HORIZONTAL;
+			settings.weighty = 5;
+			settings.weightx = 1;
+			settings.fill = GridBagConstraints.BOTH;
+			panelTweets[i].setFont(new Font("Calibri", Font.PLAIN, 16));
 			add(panelTweets[i], settings);
 		}
 
@@ -93,25 +103,24 @@ public class JLectorTweets extends JPanel {
 			
 			try {				
 				String user = textFieldNombreUsuario.getText();
+				String texto, fecha;
 				
 				List<Status> listaTweets = twitter.getUserTimeline(user); 
 				
 				int tamano = Math.min(listaTweets.size(), 5);
 				
-				// Añadimos el panel donde se mostrarán los tweets
-				//panelTweets = new JTextArea[tamano];
 				
 				for (int i=0; i<tamano; i++) {					
 					// Almacenamos toda la info relativa al tweet
-					tweet = listaTweets.get(i);	
+					tweet = listaTweets.get(i);
+					fecha = tweet.getCreatedAt().toString();
+					
+					texto = "Fecha publicación: [" + fecha + "]\n" + tweet.getText();
 					
 					//panelTweets[i].add(new JLabel(listaTweets.get(i).getText()));
-					panelTweets[i].setText(tweet.getText());
+					panelTweets[i].setText(texto);
+
 					
-					
-//					tweet = "@" + listaTweets.get(i).getUser().getScreenName() + " - "
-//							+ listaTweets.get(i).getText() + "\n";
-//					cadenaTweets += tweet + "\n";
 				}
 				
 			} catch (TwitterException te) {
