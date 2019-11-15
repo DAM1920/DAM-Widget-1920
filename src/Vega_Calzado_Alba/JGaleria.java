@@ -3,7 +3,6 @@ package Vega_Calzado_Alba;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -70,8 +69,6 @@ public class JGaleria extends JPanel{
 	}
 	
 	public void mostrarPrimeraImagen(ArrayList<String> rutasImagenes) {
-		ImageIcon[] vImagenes;
-		
 		try {
 			BufferedImage imagen = ImageIO.read(new File(rutasImagenes.get(0)));
 			ImageIcon icon = new ImageIcon(imagen.getScaledInstance(800,500, imagen.SCALE_SMOOTH));
@@ -84,8 +81,6 @@ public class JGaleria extends JPanel{
 	}
 	
 	public void crearArrayImagenes(ArrayList<String> imagenes) {
-		
-		
 		try{
 			for(int i=0;i<imagenes.size();i++) {
 				BufferedImage imagen = ImageIO.read(new File(rutasImagenes.get(i)));
