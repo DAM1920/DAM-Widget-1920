@@ -46,8 +46,6 @@ public class JReloj extends JPanel implements Runnable {
 	@Override
 	public void run() {
 		calendario = Calendar.getInstance();
-		hilo = new Thread(this);
-		hilo.start();
 		contando = true;
 		while (contando) {
 			try {
