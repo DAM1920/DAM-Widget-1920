@@ -14,12 +14,13 @@ import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class MiBotonPuzle extends JLabel implements MouseListener {
+public class JPuzzleLabel extends JLabel implements MouseListener {
 	private VentanaPrincipal ventana;
 	private int filaY;
 	private int columnaX;
+	private String ruta;
 	
-	public MiBotonPuzle(VentanaPrincipal ventana,int columnaX,int filaY) {
+	public JPuzzleLabel(VentanaPrincipal ventana,int columnaX,int filaY) {
 		super();
 		this.addMouseListener(this);
 		this.ventana = ventana;
@@ -27,6 +28,16 @@ public class MiBotonPuzle extends JLabel implements MouseListener {
 		this.columnaX = columnaX;
 	}
 
+	public String getRuta() {
+		return ruta;
+	}
+
+	public void setRuta(String ruta) {
+		this.ruta = ruta;
+	}
+
+	//*********************Listeners*********************
+	
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		
@@ -40,16 +51,14 @@ public class MiBotonPuzle extends JLabel implements MouseListener {
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-		it = imagenesOriginales.iterator();
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		ventana.buscarBlanca(columnaX, filaY);
-		//ventana.buscarBlanca();
+		if(ventana.victoria==false) {
+			ventana.comprobarCasillasAdyacentes(filaY,columnaX);
+		}
 	}
 
 	@Override
