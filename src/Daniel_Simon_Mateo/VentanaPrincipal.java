@@ -1,4 +1,9 @@
 package Daniel_Simon_Mateo;
+
+/**
+ * @author Daniel Simón Mateo
+ */
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
