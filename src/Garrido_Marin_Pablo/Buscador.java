@@ -95,18 +95,19 @@ public class Buscador extends JPanel {
 		opciones.setBackground(Color.GRAY);
 		// Creo un arrayList leyendo el fichero donde guardo las busquedas
 		ArrayList<String> busquedas = leerFichero();
-		// Variable con la que cuento las opciones introducidas
-		int opcAdd = 0;
-		// Recorro el arrayList al reves para añadir primero las ultimas busquedas
-		for (int i = busquedas.size() - 1; i >= 0; i--) {
-			opciones.addItem(busquedas.get(i));
-			// Incremento la variable cada vez que añado una opcion y si es igual a 5, acabo
-			// el for para no mostrar todas las busquedas, solo las 5 ultimas
-			opcAdd++;
-			if (opcAdd == 5) {
-				i = -1;
+		
+		// Elimino las busquedas que se repiten despues y dejo la ultima vez que fueron buscadas
+		for (int i = 0; i < busquedas.size(); i++) {
+			for (int j = i+1; j < busquedas.size(); j++) {
+				if (busquedas.get(i).equalsIgnoreCase(busquedas.get(j))) {
+					busquedas.remove(i);
+				}
 			}
-
+		}		
+		
+		// Recorro el arrayList al reves para añadir primero las ultimas busquedas
+		for (int i = busquedas.size() - 1; i >= busquedas.size()-5; i--) {
+			opciones.addItem(busquedas.get(i));
 		}
 		// Pongo el indice -1 como seleccionado para que no me muestre ninguna opcion al
 		// iniciarlo
@@ -143,6 +144,7 @@ public class Buscador extends JPanel {
 			String linea;
 			while ((linea = br.readLine()) != null) {
 				busquedas.add(linea);
+				
 			}
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -205,6 +207,7 @@ public class Buscador extends JPanel {
 		JFrameWindow window = new JFrameWindow(url);
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
+		
 	}
 
 }
