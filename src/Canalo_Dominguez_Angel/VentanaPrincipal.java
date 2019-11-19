@@ -128,22 +128,19 @@ public class VentanaPrincipal {
 		form1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panelReloj.setBackground(Color.BLACK);
-				panelReloj.horaLabel.setForeground(Color.GREEN);
+				panelReloj.cambioColor(Color.GREEN, Color.BLACK);
 			}
 		});
 		form2.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panelReloj.setBackground(Color.BLACK);
-				panelReloj.horaLabel.setForeground(Color.RED);
+				panelReloj.cambioColor(Color.RED, Color.BLACK);
 			}
 		});
 		form3.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				panelReloj.setBackground(Color.CYAN);
-				panelReloj.horaLabel.setForeground(Color.BLACK);
+				panelReloj.cambioColor(Color.BLACK, Color.CYAN);
 			}
 		});
 		horaForm1.addActionListener(new ActionListener() {

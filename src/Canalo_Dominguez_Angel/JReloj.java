@@ -29,7 +29,7 @@ public class JReloj extends JPanel implements Runnable {
 		setBorder(BorderFactory.createLineBorder(Color.GREEN, 3));
 		setLayout(new GridBagLayout());
 		horaLabel = new JLabel();
-		horaLabel.setFont(new Font("Impact", Font.BOLD, 70));
+		horaLabel.setFont(new Font("Impact", Font.PLAIN, 70));
 		horaLabel.setForeground(Color.GREEN);
 		add(horaLabel);
 		hilo = new Thread(this);
@@ -38,6 +38,11 @@ public class JReloj extends JPanel implements Runnable {
 
 	public boolean parar() {
 		return contando = false;
+	}
+	
+	public void cambioColor(Color colorHora, Color colorFondo) {
+		this.setBackground(colorFondo);
+		horaLabel.setForeground(colorHora);
 	}
 
 	@Override
