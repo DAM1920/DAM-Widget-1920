@@ -18,7 +18,7 @@ public class JPuzzleLabel extends JLabel implements MouseListener {
 	private VentanaPrincipal ventana;
 	private int filaY;
 	private int columnaX;
-	private String ruta;
+	private int ruta;
 	
 	public JPuzzleLabel(VentanaPrincipal ventana,int columnaX,int filaY) {
 		super();
@@ -28,11 +28,11 @@ public class JPuzzleLabel extends JLabel implements MouseListener {
 		this.columnaX = columnaX;
 	}
 
-	public String getRuta() {
+	public int getRuta() {
 		return ruta;
 	}
 
-	public void setRuta(String ruta) {
+	public void setRuta(int ruta) {
 		this.ruta = ruta;
 	}
 

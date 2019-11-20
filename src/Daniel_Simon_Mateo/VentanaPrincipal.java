@@ -1,15 +1,12 @@
 package Daniel_Simon_Mateo;
 
-/**
- * @author Daniel Simón Mateo
- */
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Image;import java.awt.event.ActionEvent;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -22,6 +19,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import javax.imageio.ImageIO;
@@ -48,75 +46,74 @@ public class VentanaPrincipal {
 	}
 
 	public void inicializarComponentes() {
-		int indice,aleatorio,y,x;
+		int indice, aleatorio, y, x;
 		GridBagConstraints settings = new GridBagConstraints();
-		ArrayList<Image> imagenes = devolverListaImagenes();
+		HashMap<Integer, Image> imagenes = devolverListaImagenes();
 		marco.getContentPane().setLayout(new GridBagLayout());
-		
-		//Se inicializa el panel de movimientos
+
+		// Se inicializa el panel de movimientos
 		settings = new GridBagConstraints();
 		panelMovimientos = new JPanel();
-		settings.gridy=0;
-		settings.gridx =0;
+		settings.gridy = 0;
+		settings.gridx = 0;
 		settings.ipadx = 100;
 		panelMovimientos.setBorder(BorderFactory.createTitledBorder("MOVIMIENTOS"));
 		panelMovimientos.setBackground(Color.lightGray);
-		marco.add(panelMovimientos,settings);
-		
-		//Se inicializa la etiqueta con la puntuaciï¿½n
+		marco.add(panelMovimientos, settings);
+
+		// Se inicializa la etiqueta con la puntuaciï¿½n
 		settings = new GridBagConstraints();
 		labelMovimientos = new JLabel();
 		labelMovimientos.setText("0");
-		panelMovimientos.add(labelMovimientos,settings);
-		
-		//Se inicializa el panel de estado
+		panelMovimientos.add(labelMovimientos, settings);
+
+		// Se inicializa el panel de estado
 		settings = new GridBagConstraints();
 		panelEstado = new JPanel();
-		settings.gridy=0;
-		settings.gridx =1;
+		settings.gridy = 0;
+		settings.gridx = 1;
 		settings.ipadx = 75;
 		panelEstado.setBorder(BorderFactory.createTitledBorder("ESTADO DE LA PARTIDA"));
 		panelEstado.setBackground(Color.ORANGE);
-		marco.add(panelEstado,settings);
-		
-		//Se inicializa la etiqueta de estado de la partida
+		marco.add(panelEstado, settings);
+
+		// Se inicializa la etiqueta de estado de la partida
 		settings = new GridBagConstraints();
 		labelEstado = new JLabel();
 		labelEstado.setText("EN PROCESO");
-		panelEstado.add(labelEstado,settings);
-		
-		//Se inicializa el botón de reinicio
+		panelEstado.add(labelEstado, settings);
+
+		// Se inicializa el botón de reinicio
 		settings = new GridBagConstraints();
 		reiniciar = new JButton();
-		settings.gridy=0;
-		settings.gridx =2;
+		settings.gridy = 0;
+		settings.gridx = 2;
 		reiniciar.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				reiniciarPartida();
-				
+
 			}
 		});
 		settings.fill = GridBagConstraints.BOTH;
 		reiniciar.setBackground(Color.DARK_GRAY);
 		reiniciar.setText("REINICIAR");
 		reiniciar.setForeground(Color.white);
-		marco.add(reiniciar,settings);
-		
-		
-		//Se inicializa el panel de juego
+		marco.add(reiniciar, settings);
+
+		// Se inicializa el panel de juego
 		settings = new GridBagConstraints();
 		panelJuego = new JPanel();
-		panelJuego.setLayout(new GridLayout(3,3));
+		panelJuego.setLayout(new GridLayout(3, 3));
 		panelJuego.setBorder(BorderFactory.createLineBorder(Color.black, 10, false));
-		settings.gridy=1;
+		settings.gridy = 1;
 		settings.gridx = 0;
-		settings.gridwidth=3;
-		settings.gridheight=3;
-		marco.add(panelJuego,settings);
-		
-		//Se inicializan los botones
+		settings.gridwidth = 3;
+		settings.gridheight = 3;
+		marco.add(panelJuego, settings);
+
+		// Se inicializan los botones
 		casillas = new JPuzzleLabel[3][3];
 		for (int i = 0; i < casillas.length; i++) {
 			for (int j = 0; j < casillas[i].length; j++) {
@@ -124,45 +121,43 @@ public class VentanaPrincipal {
 				casillas[i][j].setBorder(BorderFactory.createLineBorder(Color.darkGray));
 			}
 		}
-		
-		//Se le da una imagen al azar a todos los botones
+
+		// Se le da una imagen al azar a todos los botones
 		indice = 0;
-		while(imagenes.size()>0) {
-			for (int i = 0; i < casillas.length; i++) {
-				for (int j = 0; j < casillas[i].length; j++) {
-					casillas[i][j].setIcon(new ImageIcon(imagenes.get(0)));
-					casillas[i][j].setRuta(Integer.toString(indice));
-					imagenes.remove(0);
-					indice++;
-				}
+		for (int i = 0; i < casillas.length; i++) {
+			for (int j = 0; j < casillas[i].length; j++) {
+				casillas[i][j].setIcon(new ImageIcon(imagenes.get(indice)));
+				casillas[i][j].setRuta(indice);
+				indice++;
 			}
 		}
-		
-		//Se aï¿½aden las casillas al panel de juego
+
+		// Se aï¿½aden las casillas al panel de juego
 		for (int i = 0; i < casillas.length; i++) {
 			for (int j = 0; j < casillas[i].length; j++) {
 				settings = new GridBagConstraints();
 				settings.gridx = i;
 				settings.gridy = j;
-				panelJuego.add(casillas[i][j],settings);
+				panelJuego.add(casillas[i][j], settings);
 			}
 		}
-		
+
 		desordenarTablero();
+		//mostrarStringImagenes();
 	}
-	
+
 	/**
 	 * Una vez asignados los paneles, los desordena
 	 */
 	public void desordenarTablero() {
-		String rutaAux;
+		int rutaAux;
 		Icon iconoAux;
-		int randomX,randomY,randomX2,randomY2;
-		for (int i = 0; i < (int)(Math.random()*100); i++) {
-			randomX = (int)(Math.random()*3);
-			randomY = (int)(Math.random()*3);
-			randomX2 = (int)(Math.random()*3);
-			randomY2 = (int)(Math.random()*3);
+		int randomX, randomY, randomX2, randomY2;
+		for (int i = 0; i < (int) (Math.random() * 100); i++) {
+			randomX = (int) (Math.random() * 3);
+			randomY = (int) (Math.random() * 3);
+			randomX2 = (int) (Math.random() * 3);
+			randomY2 = (int) (Math.random() * 3);
 			rutaAux = casillas[randomX][randomY].getRuta();
 			iconoAux = casillas[randomX][randomY].getIcon();
 			casillas[randomX][randomY].setIcon(casillas[randomX2][randomY2].getIcon());
@@ -171,69 +166,70 @@ public class VentanaPrincipal {
 			casillas[randomX2][randomY2].setRuta(rutaAux);
 		}
 	}
-	
+
 	/**
-	 * Comprueba las posiciones norte, sur, este y oeste en busca de la casilla blanca (0.jpg)
+	 * Comprueba las posiciones norte, sur, este y oeste en busca de la casilla
+	 * blanca (0.jpg)
 	 */
-	public void comprobarCasillasAdyacentes(int posX,int posY) {
+	public void comprobarCasillasAdyacentes(int posX, int posY) {
 		ImageIcon imAux;
 		String stAux;
-		//[posX][posY-1] ARRIBA
-		if((posX>=0)&&(posX<3)&&(posY-1>=0)&&(posY-1<3)) {
-			if((casillas[posX][posY-1].getRuta().equals("0"))) {
-				imAux = (ImageIcon) casillas[posX][posY-1].getIcon();
-				//stAux = casillas[posX][posY-1].getRuta();
-				casillas[posX][posY-1].setIcon((ImageIcon)casillas[posX][posY].getIcon());
+		// [posX][posY-1] ARRIBA
+		if ((posX >= 0) && (posX < 3) && (posY - 1 >= 0) && (posY - 1 < 3)) {
+			if ((casillas[posX][posY - 1].getRuta() == (0))) {
+				imAux = (ImageIcon) casillas[posX][posY - 1].getIcon();
+				// stAux = casillas[posX][posY-1].getRuta();
+				casillas[posX][posY - 1].setIcon((ImageIcon) casillas[posX][posY].getIcon());
 				casillas[posX][posY].setIcon(imAux);
-				casillas[posX][posY-1].setRuta(casillas[posX][posY].getRuta());
-				casillas[posX][posY].setRuta("0");
+				casillas[posX][posY - 1].setRuta(casillas[posX][posY].getRuta());
+				casillas[posX][posY].setRuta(0);
 				aumentarMovimientos();
 			}
 		}
-		
-		//[posX-1][posY] IZQUIERDA
-		if((posX-1>=0)&&(posX-1<3)&&(posY>=0)&&(posY<3)) {
-			if(casillas[posX-1][posY].getRuta().equals("0")) {
-				imAux = (ImageIcon) casillas[posX-1][posY].getIcon();
-				//stAux = casillas[posX-1][posY].getRuta();
-				casillas[posX-1][posY].setIcon((ImageIcon)casillas[posX][posY].getIcon());
+
+		// [posX-1][posY] IZQUIERDA
+		if ((posX - 1 >= 0) && (posX - 1 < 3) && (posY >= 0) && (posY < 3)) {
+			if (casillas[posX - 1][posY].getRuta() == (0)) {
+				imAux = (ImageIcon) casillas[posX - 1][posY].getIcon();
+				// stAux = casillas[posX-1][posY].getRuta();
+				casillas[posX - 1][posY].setIcon((ImageIcon) casillas[posX][posY].getIcon());
 				casillas[posX][posY].setIcon(imAux);
-				casillas[posX-1][posY].setRuta(casillas[posX][posY].getRuta());
-				casillas[posX][posY].setRuta("0");
+				casillas[posX - 1][posY].setRuta(casillas[posX][posY].getRuta());
+				casillas[posX][posY].setRuta(0);
 				aumentarMovimientos();
 			}
 		}
-		
-		//[posX+1][posY] DERECHA
-		if((posX+1>=0)&&(posX+1<3)&&(posY>=0)&&(posY<3)) {
-			if(casillas[posX+1][posY].getRuta().equals("0")) {
-				imAux = (ImageIcon) casillas[posX+1][posY].getIcon();
-				//stAux = casillas[posX+1][posY].getRuta();
-				casillas[posX+1][posY].setIcon((ImageIcon)casillas[posX][posY].getIcon());
+
+		// [posX+1][posY] DERECHA
+		if ((posX + 1 >= 0) && (posX + 1 < 3) && (posY >= 0) && (posY < 3)) {
+			if (casillas[posX + 1][posY].getRuta() == (0)) {
+				imAux = (ImageIcon) casillas[posX + 1][posY].getIcon();
+				// stAux = casillas[posX+1][posY].getRuta();
+				casillas[posX + 1][posY].setIcon((ImageIcon) casillas[posX][posY].getIcon());
 				casillas[posX][posY].setIcon(imAux);
-				casillas[posX+1][posY].setRuta(casillas[posX][posY].getRuta());
-				casillas[posX][posY].setRuta("0");
+				casillas[posX + 1][posY].setRuta(casillas[posX][posY].getRuta());
+				casillas[posX][posY].setRuta(0);
 				aumentarMovimientos();
 			}
 		}
-		
-		//[posX][posY+1] ABAJO
-		if((posX>=0)&&(posX<3)&&(posY+1>=0)&&(posY+1<3)) {
-			if(casillas[posX][posY+1].getRuta().equals("0")) {
-				imAux = (ImageIcon) casillas[posX][posY+1].getIcon();
-				//stAux = casillas[posX][posY+1].getRuta();
-				casillas[posX][posY+1].setIcon((ImageIcon)casillas[posX][posY].getIcon());
+
+		// [posX][posY+1] ABAJO
+		if ((posX >= 0) && (posX < 3) && (posY + 1 >= 0) && (posY + 1 < 3)) {
+			if (casillas[posX][posY + 1].getRuta() == (0)) {
+				imAux = (ImageIcon) casillas[posX][posY + 1].getIcon();
+				// stAux = casillas[posX][posY+1].getRuta();
+				casillas[posX][posY + 1].setIcon((ImageIcon) casillas[posX][posY].getIcon());
 				casillas[posX][posY].setIcon(imAux);
-				casillas[posX][posY+1].setRuta(casillas[posX][posY].getRuta());
-				casillas[posX][posY].setRuta("0");
+				casillas[posX][posY + 1].setRuta(casillas[posX][posY].getRuta());
+				casillas[posX][posY].setRuta(0);
 				aumentarMovimientos();
 			}
 		}
-		if(comprobarVictoria()) {
+		if (comprobarVictoria()) {
 			mostrarFinJuego();
 		}
 	}
-	
+
 	/**
 	 * Aumenta el número de movimientos
 	 */
@@ -245,39 +241,32 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Lee la carpeta de imï¿½genes y retorna una lista con todas las imï¿½genes que encuentra
+	 * Lee la carpeta de imï¿½genes y retorna una lista con todas las imï¿½genes que
+	 * encuentra
+	 * 
 	 * @return
 	 */
-	public ArrayList<Image> devolverListaImagenes() {
-		Iterator it;
+	public HashMap<Integer, Image> devolverListaImagenes() {
 		Image aux;
 		File fichero = new File("img");
 		String[] lista = fichero.list();
-		ArrayList<Image> imagenesOriginales = new ArrayList<>();
-		ArrayList<Image> imagenes = new ArrayList<>();
-		
+		HashMap<Integer, Image> imagenes = new HashMap<>();
+
 		try {
 			for (int i = 0; i < lista.length; i++) {
-				String auxPalabra = "img\\" + lista[i];
-				if(!auxPalabra.endsWith("txt")){
-					InputStream is = new BufferedInputStream(new FileInputStream("img\\" + lista[i]));
-					imagenesOriginales.add(ImageIO.read(is));
+				String auxPalabra = "img/" + lista[i];
+				if (!auxPalabra.endsWith("txt")) {
+					InputStream is = new BufferedInputStream(new FileInputStream("img/" + lista[i]));
+					aux = ImageIO.read(is).getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
+					imagenes.put(i, aux);
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		it = imagenesOriginales.iterator();
-		
-		while(it.hasNext()) {
-			aux = (Image) it.next();
-			aux = aux.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
-			imagenes.add(aux);
-		}
 		return imagenes;
 	}
-	
+
 	/**
 	 * Reinicia el tablero para jugar una nueva partida
 	 */
@@ -286,44 +275,62 @@ public class VentanaPrincipal {
 		labelEstado.setText("EN PROCESO");
 		labelMovimientos.setText("0");
 		victoria = false;
-		ArrayList<Image> imagenes = devolverListaImagenes();
-		while(imagenes.size()>0) {
-			for (int i = 0; i < casillas.length; i++) {
-				for (int j = 0; j < casillas[i].length; j++) {
-					casillas[i][j].setIcon(new ImageIcon(imagenes.get(0)));
-					casillas[i][j].setRuta(Integer.toString(indice));
-					imagenes.remove(0);
-					indice++;
-				}
+		HashMap<Integer, Image> imagenes = devolverListaImagenes();
+		for (int i = 0; i < casillas.length; i++) {
+			for (int j = 0; j < casillas[i].length; j++) {
+				casillas[i][j].setIcon(new ImageIcon(imagenes.get(indice)));
+				casillas[i][j].setRuta(indice);
+				indice++;
 			}
 		}
+
 		desordenarTablero();
 	}
-	
+
 	/**
 	 * Si se ha cumplido la condición para ganar, muestra el fin del juego
 	 */
 	public void mostrarFinJuego() {
 		victoria = true;
 		labelEstado.setText("FINALIZADA");
-		JOptionPane.showMessageDialog(panelJuego, "¡¡Has ganado!! Pulsa el botón REINICIAR para jugar de nuevo.", "¡¡Enhorabuena!!", 2);
+		JOptionPane.showMessageDialog(panelJuego, "¡¡Has ganado!! Pulsa el botón REINICIAR para jugar de nuevo.",
+				"¡¡Enhorabuena!!", 2);
 	}
 	
+	public void mostrarStringImagenes() {
+		Image[]imagenes = new Image[9];
+		
+		for (int i = 0; i < imagenes.length; i++) {
+			try {
+				InputStream is = new BufferedInputStream(new FileInputStream("img/0.jpg"));
+				imagenes[i] = ImageIO.read(is);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		for (int i = 0; i < imagenes.length; i++) {
+			System.out.println(imagenes[i].toString());
+		}
+		
+	}
+
 	/**
 	 * Comprueba si se ha ganado
+	 * 
 	 * @return
 	 */
 	public boolean comprobarVictoria() {
-		return casillas[0][1].getRuta().equals("1")&&
-			   casillas[0][2].getRuta().equals("2")&&
-			   casillas[1][0].getRuta().equals("3")&&
-			   casillas[1][1].getRuta().equals("4")&&
-			   casillas[1][2].getRuta().equals("5")&&
-			   casillas[2][0].getRuta().equals("6")&&
-			   casillas[2][1].getRuta().equals("7")&&
-			   casillas[2][2].getRuta().equals("8");
+		return casillas[0][1].getRuta() == (1) &&
+			   casillas[0][2].getRuta() == (2) &&
+			   casillas[1][0].getRuta() == (3) &&
+			   casillas[1][1].getRuta() == (4) &&
+			   casillas[1][2].getRuta() == (5) &&
+			   casillas[2][0].getRuta() == (6) &&
+			   casillas[2][1].getRuta() == (7) &&
+			   casillas[2][2].getRuta() == (8);
 	}
-	
+
 	/**
 	 * Inicializa la ventana y los componentes
 	 */
