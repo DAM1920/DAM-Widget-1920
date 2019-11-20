@@ -1,3 +1,4 @@
+
 package Garrido_Marin_Pablo;
 
 import java.awt.Color;
@@ -49,7 +50,7 @@ public class Buscador extends JPanel {
 	String url = "https://www.google.com/search?q=";
 
 	/**
-	 * Constructor Establezco el tamaño, el layaout, el color de fondo e inicializo
+	 * Constructor Establezco el tamaï¿½o, el layaout, el color de fondo e inicializo
 	 * los componentes y los listenners
 	 */
 	public Buscador() {
@@ -64,13 +65,13 @@ public class Buscador extends JPanel {
 	 * Metodo donde inicializo los componentes
 	 */
 	public void inicializarComponentes() {
-		// Creo el boton con el icono y lo añado al panel
+		// Creo el boton con el icono y lo aï¿½ado al panel
 		ImageIcon icono = new ImageIcon("img/google.png");
 		boton = new JButton(icono);
 		boton.setBorder(null);
 		boton.setBackground(this.getBackground());
 		this.add(boton);
-		// Creo el JTextField y lo añado al panel
+		// Creo el JTextField y lo aï¿½ado al panel
 		texto = new JTextField();
 		texto.setBackground(colorFondo);
 		texto.setBorder(null);
@@ -105,7 +106,7 @@ public class Buscador extends JPanel {
 			}
 		}		
 		
-		// Recorro el arrayList al reves para añadir primero las ultimas busquedas
+		// Recorro el arrayList al reves para aï¿½adir primero las ultimas busquedas
 		for (int i = busquedas.size() - 1; i >= busquedas.size()-5; i--) {
 			opciones.addItem(busquedas.get(i));
 		}
@@ -116,7 +117,7 @@ public class Buscador extends JPanel {
 	}
 
 	/**
-	 * Metodo donde añado la busqueda al fichero
+	 * Metodo donde aï¿½ado la busqueda al fichero
 	 * 
 	 * @param texto String con la busqueda que voy a realizar
 	 */
@@ -211,3 +212,4 @@ public class Buscador extends JPanel {
 	}
 
 }
+
