@@ -15,10 +15,7 @@ public class Principal {
 			public void run() {
 				Ventana vent = new Ventana();
 				vent.inicializar();
-				
 			}
 		});
 	}
-	
-	
 }
