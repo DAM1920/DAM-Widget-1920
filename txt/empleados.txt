@@ -1,0 +1,4 @@
+Codigo,Nombre,Apellidos,DNI,Edad
+111,Pedro,Rodriguez,1-D,21,
+222,Noah,Gonzalez,1-A,20,
+333,Samuel,Rodriguez,3-D,20,
