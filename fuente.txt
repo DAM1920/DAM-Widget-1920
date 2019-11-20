@@ -1,0 +1,7 @@
+java.awt.Color[r=255,g=102,b=153]
+Adobe Devanagari
+true
+false
+16
+3
+4
