@@ -19,6 +19,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -83,7 +85,7 @@ public class VentanaPrincipal {
 		labelEstado.setText("EN PROCESO");
 		panelEstado.add(labelEstado, settings);
 
-		// Se inicializa el botón de reinicio
+		// Se inicializa el botï¿½n de reinicio
 		settings = new GridBagConstraints();
 		reiniciar = new JButton();
 		settings.gridy = 0;
@@ -231,7 +233,7 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Aumenta el número de movimientos
+	 * Aumenta el nï¿½mero de movimientos
 	 */
 	public void aumentarMovimientos() {
 		String texto = labelMovimientos.getText();
@@ -250,16 +252,23 @@ public class VentanaPrincipal {
 		Image aux;
 		File fichero = new File("img");
 		String[] lista = fichero.list();
+		ArrayList<String>listaRutas = new ArrayList<>();
+		for (int i = 0; i < lista.length; i++) {
+			if(lista[i].endsWith("jpg")) {
+				listaRutas.add(lista[i]);
+			}
+		}
+		Collections.sort(listaRutas);
 		HashMap<Integer, Image> imagenes = new HashMap<>();
 
 		try {
-			for (int i = 0; i < lista.length; i++) {
-				String auxPalabra = "img/" + lista[i];
-				if (!auxPalabra.endsWith("txt")) {
-					InputStream is = new BufferedInputStream(new FileInputStream("img/" + lista[i]));
-					aux = ImageIO.read(is).getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
+			for (int i = 0; i < listaRutas.size(); i++) {
+				String auxPalabra = "img/" + listaRutas.get(i);
+					InputStream is = new BufferedInputStream(new FileInputStream("img/" + listaRutas.get(i)));
+					aux = ImageIO.read(is);
+					aux = aux.getScaledInstance(120, 120, java.awt.Image.SCALE_SMOOTH);
 					imagenes.put(i, aux);
-				}
+				
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -288,13 +297,13 @@ public class VentanaPrincipal {
 	}
 
 	/**
-	 * Si se ha cumplido la condición para ganar, muestra el fin del juego
+	 * Si se ha cumplido la condiciï¿½n para ganar, muestra el fin del juego
 	 */
 	public void mostrarFinJuego() {
 		victoria = true;
 		labelEstado.setText("FINALIZADA");
-		JOptionPane.showMessageDialog(panelJuego, "¡¡Has ganado!! Pulsa el botón REINICIAR para jugar de nuevo.",
-				"¡¡Enhorabuena!!", 2);
+		JOptionPane.showMessageDialog(panelJuego, "ï¿½ï¿½Has ganado!! Pulsa el botï¿½n REINICIAR para jugar de nuevo.",
+				"ï¿½ï¿½Enhorabuena!!", 2);
 	}
 	
 	public void mostrarStringImagenes() {
