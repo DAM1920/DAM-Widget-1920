@@ -289,7 +289,6 @@ public class Calendario extends JDialog {
 				botonDia[diaPrincipal].setBackground(new Color(14, 246, 74)); // Si hay un fichero que exista.
 																				// Modificamos su color.
 			}
-
 			diaPrincipal++;
 		}
 		accionRaton(mesSelec, yearActual);
@@ -525,5 +524,4 @@ public class Calendario extends JDialog {
 			}
 		}
 	}
-
 }
