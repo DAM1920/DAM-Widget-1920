@@ -14,9 +14,10 @@ public class Principal {
 			@Override
 			public void run() {
 				Ventana vent = new Ventana();
-				vent.inicializar();
+				vent.inicializar();				
 				
 			}
 		});
+		
 	}	
 }
